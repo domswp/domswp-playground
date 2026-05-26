@@ -12,6 +12,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 
 - Repo ini (`domswp-playground`) adalah sandbox/playground untuk eksperimen dan belajar Cursor
 - Tidak ada produk spesifik — dipakai untuk coba-coba ide kapan pun muncul
+- Profil lengkap user ada di `profile.md`
 
 ## Ide & Project
 
@@ -24,7 +25,10 @@ _(Belum ada — akan ditambahkan seiring waktu)_
 | 2026-05-26 | Repo ini dipakai sebagai playground, bukan produk |
 | 2026-05-26 | Setiap project baru dibuatkan folder terpisah |
 | 2026-05-26 | Komunikasi pakai Bahasa Indonesia |
+| 2026-05-26 | Dibuat `profile.md` untuk profil user |
 
 ## Catatan Penting
 
-_(Belum ada — akan ditambahkan seiring waktu)_
+- User coding di level hobby — penjelasan harus jelas dan tidak terlalu teknis
+- Stack favorit: Rust, Go, Python
+- Minat: retro computing, IoT, oprek hardware, LLM
