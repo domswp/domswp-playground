@@ -19,6 +19,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | Folder | Deskripsi | Status |
 |--------|-----------|--------|
 | `rocket-sim/` | Belajar rocket engineering dari dasar (Python) | Selesai - Level Pemula |
+| `daily-news/` | Digest berita harian (RSS + analisis + kontradiksi) | Aktif — otomatis via GitHub Actions |
 
 ## Keputusan
 

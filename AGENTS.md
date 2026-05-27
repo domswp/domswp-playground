@@ -2,11 +2,31 @@
 
 ## Cursor Cloud specific instructions
 
-This is an empty playground repository (`domswp-playground`) with no application code, dependencies, or services. The repo contains only a `README.md`.
+Playground repo (`domswp-playground`) untuk eksperimen terpisah per folder.
 
-- **No package manager or dependencies** — no `package.json`, `requirements.txt`, `Cargo.toml`, or equivalent exists.
-- **No services to run** — there are no dev servers, databases, or background processes.
-- **No tests or linting** — no test framework or linter is configured.
-- **No build step** — nothing to compile or bundle.
+### Projects
 
-When code is added to this repository, this file should be updated with relevant setup instructions, service startup notes, and testing guidance.
+| Folder | Stack | Notes |
+|--------|-------|-------|
+| `rocket-sim/` | Python, matplotlib, numpy | Rocket physics tutorials — **jangan ubah** kecuali user minta |
+| `daily-news/` | Python, feedparser, requests | RSS digest harian — laporan di `daily-news/reports/` |
+
+### daily-news
+
+```bash
+cd daily-news && pip install -r requirements.txt && python3 run_daily.py
+```
+
+- Otomatis: GitHub Actions `daily-news.yml` — 07:00 WIB
+- Opsional: `OPENAI_API_KEY` untuk analisis LLM lebih dalam
+
+### rocket-sim
+
+```bash
+cd rocket-sim && pip install -r requirements.txt && python3 01_tsiolkovsky.py
+```
+
+### User context
+
+- Profil: `profile.md`
+- Memory / preferensi: `memory.md` (Bahasa Indonesia, folder terpisah per project)
