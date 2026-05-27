@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Orbit Viewer — Falcon 9 & Starship</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="canvas"></canvas>
+
+      <header class="hud top">
+        <h1>Orbit Viewer</h1>
+        <p class="sub">Klik stage roket · drag untuk orbit · scroll zoom</p>
+      </header>
+
+      <div class="hud controls">
+        <label for="rocket-select">Roket</label>
+        <select id="rocket-select">
+          <option value="falcon9">Falcon 9</option>
+          <option value="starship">Starship + Super Heavy</option>
+        </select>
+        <button type="button" id="btn-stage" class="ghost">Simulasi staging</button>
+        <button type="button" id="btn-reset" class="ghost">Reset kamera</button>
+      </div>
+
+      <aside id="info-panel" class="hud panel hidden">
+        <button type="button" id="panel-close" aria-label="Tutup">×</button>
+        <h2 id="panel-title">—</h2>
+        <dl id="panel-stats"></dl>
+        <p id="panel-note" class="note"></p>
+      </aside>
+
+      <footer class="hud bottom">
+        <span>Data selaras <code>rocket-sim/</code> · Roadmap: ISS live 3D</span>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
