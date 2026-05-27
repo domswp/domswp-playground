@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>domswp-playground</title>
+    <style>
+      :root {
+        --bg: #050810;
+        --text: #e8eefc;
+        --muted: #8b9bb8;
+        --accent: #5eb3ff;
+        --card: #121a2e;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px 20px 48px;
+        line-height: 1.5;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 28px;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+        max-width: 480px;
+      }
+      a.card {
+        display: block;
+        padding: 16px 18px;
+        background: var(--card);
+        border: 1px solid rgba(120, 160, 255, 0.2);
+        border-radius: 12px;
+        color: var(--text);
+        text-decoration: none;
+      }
+      a.card:hover {
+        border-color: var(--accent);
+      }
+      a.card strong {
+        color: var(--accent);
+        display: block;
+        margin-bottom: 4px;
+      }
+      a.card span {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      footer {
+        margin-top: 36px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      footer a {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>domswp-playground</h1>
+    <p class="sub">Eksperimen & belajar di Cursor — hobby project Domas</p>
+
+    <div class="grid">
+      <a class="card" href="threejs-orbit/">
+        <strong>Orbit Viewer</strong>
+        <span>Falcon 9 & Starship 3D — klik stage, lihat Δv</span>
+      </a>
+    </div>
+
+    <footer>
+      Portfolio & pembelajaran utama:
+      <a href="https://domswp.github.io/profile-domswp/">domswp.github.io/profile-domswp</a>
+      · Repo:
+      <a href="https://github.com/domswp/domswp-playground">GitHub</a>
+    </footer>
+  </body>
+</html>
