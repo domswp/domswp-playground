@@ -20,7 +20,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 |--------|-----------|--------|
 | `rocket-sim/` | Belajar rocket engineering dari dasar (Python) | Selesai - Level Pemula |
 | `daily-news/` | Digest berita harian (RSS + analisis) | Aktif |
-| `threejs-orbit/` | Orbit viewer 3D Falcon 9 & Starship (Three.js) | Aktif — roadmap: ISS live 3D |
+| `threejs-orbit/` | Orbit viewer 3D Falcon 9 & Starship (Three.js) | Aktif — https://domswp.github.io/domswp-playground/threejs-orbit/ |
 
 ## Keputusan
 
@@ -37,3 +37,5 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - User coding di level hobby — penjelasan harus jelas dan tidak terlalu teknis
 - Stack favorit: Rust, Go, Python
 - Minat: retro computing, IoT, oprek hardware, LLM
+
+| 2026-05-27 | GitHub Pages playground terpisah dari profile-domswp (portfolio) |

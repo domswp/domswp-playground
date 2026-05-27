@@ -12,13 +12,21 @@ Playground repo (`domswp-playground`) — satu folder per eksperimen.
 | `daily-news/` | Python, feedparser | RSS digest — `reports/` |
 | `threejs-orbit/` | Vite, Three.js | Falcon 9 & Starship 3D viewer |
 
+### GitHub Pages
+
+- Hub: https://domswp.github.io/domswp-playground/
+- Orbit Viewer: https://domswp.github.io/domswp-playground/threejs-orbit/
+- Portfolio user (repo lain): https://domswp.github.io/profile-domswp/
+
+Workflow: `.github/workflows/github-pages.yml` — deploy on push to `main`.
+
 ### threejs-orbit
 
 ```bash
 cd threejs-orbit && npm install && npm run dev
 ```
 
-Port default: 5173. Roadmap user: ISS live 3D (belum diimplementasi).
+Build Pages: `npm run build:pages`
 
 ### rocket-sim
 

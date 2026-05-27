@@ -28,7 +28,15 @@ npm run build
 npm run preview
 ```
 
-Output di `dist/` — bisa di-deploy ke GitHub Pages.
+Output di `dist/` — deploy otomatis via GitHub Actions.
+
+## Live (GitHub Pages)
+
+- **Hub:** https://domswp.github.io/domswp-playground/
+- **Orbit Viewer:** https://domswp.github.io/domswp-playground/threejs-orbit/
+
+Portfolio utama (repo terpisah, tidak tertimpa):
+https://domswp.github.io/profile-domswp/
 
 ## Struktur
 
