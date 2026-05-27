@@ -16,7 +16,9 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 
 ## Ide & Project
 
-_(Belum ada — akan ditambahkan seiring waktu)_
+| Folder | Deskripsi | Status |
+|--------|-----------|--------|
+| `rocket-sim/` | Belajar rocket engineering dari dasar (Python) | Selesai - Level Pemula |
 
 ## Keputusan
 
@@ -26,6 +28,7 @@ _(Belum ada — akan ditambahkan seiring waktu)_
 | 2026-05-26 | Setiap project baru dibuatkan folder terpisah |
 | 2026-05-26 | Komunikasi pakai Bahasa Indonesia |
 | 2026-05-26 | Dibuat `profile.md` untuk profil user |
+| 2026-05-27 | Project pertama: rocket-sim (belajar rocket engineering) |
 
 ## Catatan Penting
 
