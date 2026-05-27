@@ -36,15 +36,17 @@ Roket bekerja berdasarkan **Hukum Newton ke-3**: setiap aksi punya reaksi yang s
 | 01 | `01_tsiolkovsky.py` | Persamaan Tsiolkovsky | Persamaan paling fundamental — menghitung delta-v roket |
 | 02 | `02_launch_sim.py` | Simulasi Peluncuran | Simulasi 1D: roket meluncur dari Bumi, ada gravity & drag |
 | 03 | `03_staging.py` | Staging | Kenapa roket punya beberapa tingkat & seberapa besar bedanya |
+| 04 | `04_falcon9_vs_starship.py` | Falcon 9 vs Starship | Perbandingan roket SpaceX + Saturn V, simulasi peluncuran |
 
 ## Cara Menjalankan
 
 ```bash
 cd rocket-sim
 pip install -r requirements.txt
-python 01_tsiolkovsky.py
-python 02_launch_sim.py
-python 03_staging.py
+python3 01_tsiolkovsky.py
+python3 02_launch_sim.py
+python3 03_staging.py
+python3 04_falcon9_vs_starship.py
 ```
 
 Setiap script menghasilkan output di terminal + grafik visualisasi (disimpan sebagai file PNG).
