@@ -12,7 +12,7 @@
 
       <header class="hud top">
         <h1>Orbit Viewer</h1>
-        <p class="sub">Spesifikasi · misi · staging · bandingkan roket</p>
+        <p class="sub">Drag orbit · klik stage · tombol di bawah untuk data</p>
       </header>
 
       <div class="hud controls">
@@ -52,9 +52,22 @@
         <button type="button" id="btn-reset" class="ghost">Reset kamera</button>
       </div>
 
-      <aside id="mission-panel" class="hud panel mission"></aside>
+      <aside id="mission-panel" class="hud panel mission collapsed" aria-label="Simulasi misi">
+        <button type="button" id="mission-toggle" class="panel-toggle" aria-expanded="false">
+          <span class="toggle-title">Simulasi misi</span>
+          <span class="toggle-summary" id="mission-summary">Memuat…</span>
+          <span class="chevron" aria-hidden="true">▲</span>
+        </button>
+        <div id="mission-body" class="panel-body"></div>
+      </aside>
 
-      <aside id="compare-panel" class="hud panel compare hidden"></aside>
+      <aside id="compare-panel" class="hud panel compare hidden collapsed" aria-label="Bandingkan roket">
+        <button type="button" id="compare-toggle" class="panel-toggle" aria-expanded="false">
+          <span class="toggle-title">Bandingkan</span>
+          <span class="chevron" aria-hidden="true">▲</span>
+        </button>
+        <div id="compare-body" class="panel-body"></div>
+      </aside>
 
       <aside id="info-panel" class="hud panel stage hidden">
         <button type="button" id="panel-close" aria-label="Tutup">×</button>
