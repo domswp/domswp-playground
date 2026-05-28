@@ -31,6 +31,17 @@ export function createEarth() {
   earth.name = "earth";
   group.add(earth);
 
+  const wire = new THREE.Mesh(
+    new THREE.SphereGeometry(EARTH_MESH_RADIUS * 1.002, 36, 24),
+    new THREE.MeshBasicMaterial({
+      color: 0x3a6bb8,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.2,
+    })
+  );
+  group.add(wire);
+
   const atmos = new THREE.Mesh(
     new THREE.SphereGeometry(EARTH_MESH_RADIUS * 1.015, 48, 32),
     new THREE.MeshBasicMaterial({
