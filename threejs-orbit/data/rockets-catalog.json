@@ -1,0 +1,625 @@
+{
+  "generated": "2026-05-28T10:36:30.904Z",
+  "missions": {
+    "leo": {
+      "id": "leo",
+      "label": "LEO",
+      "nama": "Orbit Bumi rendah",
+      "dvRequired": 9400,
+      "altitude": "~400 km"
+    },
+    "gto": {
+      "id": "gto",
+      "label": "GTO",
+      "nama": "Transfer orbit geo",
+      "dvRequired": 12000,
+      "altitude": "~36.000 km (apo)"
+    },
+    "tli": {
+      "id": "tli",
+      "label": "TLI",
+      "nama": "Menuju Bulan",
+      "dvRequired": 15700,
+      "altitude": "Translunar"
+    }
+  },
+  "environments": {
+    "standard": {
+      "id": "standard",
+      "label": "Normal",
+      "thrustMult": 1,
+      "note": "Kondisi rata-rata Cape / Baikonur"
+    },
+    "hot": {
+      "id": "hot",
+      "label": "Panas",
+      "thrustMult": 0.97,
+      "note": "Thrust sedikit turun, atmosfer tipis"
+    },
+    "cold": {
+      "id": "cold",
+      "label": "Dingin",
+      "thrustMult": 1.02,
+      "note": "Thrust sedikit naik (propelan padat)"
+    }
+  },
+  "rockets": [
+    {
+      "id": "falcon9",
+      "label": "Falcon 9",
+      "tinggi": 70,
+      "diameter": 3.7,
+      "payloadLeo": 22800,
+      "reusable": "Stage 1",
+      "firstFlight": 2010,
+      "fuel": "Kerosene / LOX",
+      "stages": [
+        {
+          "id": "s1",
+          "nama": "Stage 1 (9× Merlin)",
+          "mesin": "Merlin 1D",
+          "engines": 9,
+          "massaStruktur": 25600,
+          "massaBB": 395700,
+          "thrust": 7607000,
+          "ispVac": 311,
+          "burnTime": 162,
+          "height": 42,
+          "colors": {
+            "body": 16053492,
+            "accent": 1710618
+          }
+        },
+        {
+          "id": "s2",
+          "nama": "Stage 2 (1× Merlin Vac)",
+          "mesin": "Merlin 1D Vac",
+          "engines": 1,
+          "massaStruktur": 3900,
+          "massaBB": 92670,
+          "thrust": 934000,
+          "ispVac": 348,
+          "burnTime": 397,
+          "height": 14,
+          "colors": {
+            "body": 15790320,
+            "accent": 3355443
+          }
+        },
+        {
+          "id": "fairing",
+          "nama": "Payload fairing",
+          "mesin": "—",
+          "engines": 0,
+          "massaStruktur": 1900,
+          "massaBB": 0,
+          "thrust": 0,
+          "ispVac": 0,
+          "burnTime": 0,
+          "height": 14,
+          "colors": {
+            "body": 16777215,
+            "accent": 13421772
+          },
+          "isFairing": true
+        }
+      ],
+      "meta": {
+        "negara": "Amerika Serikat",
+        "operator": "SpaceX",
+        "sumber": "SpaceX, NASA (publik)",
+        "recovery": [
+          "RTLS",
+          "Autonomous drone ship",
+          "Expendable"
+        ],
+        "missions": {
+          "leo": 22800,
+          "gto": 8300,
+          "tli": null
+        }
+      },
+      "assessment": {
+        "leo": {
+          "status": "marginal",
+          "summary": "Δv mendekati minimum — margin tipis.",
+          "supported": true,
+          "totalDv": 8915.524403251853,
+          "dvRequired": 9400,
+          "twr": 1.4296738175946146,
+          "payload": 22800,
+          "liftoffMass": 542570
+        },
+        "gto": {
+          "status": "marginal",
+          "summary": "Δv mendekati minimum — margin tipis.",
+          "supported": true,
+          "totalDv": 11128.929790966962,
+          "dvRequired": 12000,
+          "twr": 1.4689304887842711,
+          "payload": 8300,
+          "liftoffMass": 528070
+        },
+        "tli": {
+          "status": "na",
+          "summary": "Roket ini tidak dikonfigurasi umum untuk misi ini.",
+          "supported": false,
+          "totalDv": 14033.504514760218,
+          "dvRequired": 15700,
+          "twr": 1.49238725438619,
+          "payload": 0,
+          "liftoffMass": 519770
+        }
+      }
+    },
+    {
+      "id": "starship",
+      "label": "Starship + Super Heavy",
+      "tinggi": 121,
+      "diameter": 9,
+      "payloadLeo": 150000,
+      "reusable": "Booster + Ship",
+      "firstFlight": 2023,
+      "fuel": "Metana / LOX",
+      "stages": [
+        {
+          "id": "booster",
+          "nama": "Super Heavy (33× Raptor)",
+          "mesin": "Raptor 2",
+          "engines": 33,
+          "massaStruktur": 200000,
+          "massaBB": 3400000,
+          "thrust": 74000000,
+          "ispVac": 350,
+          "burnTime": 160,
+          "height": 71,
+          "colors": {
+            "body": 9080212,
+            "accent": 2763310
+          }
+        },
+        {
+          "id": "ship",
+          "nama": "Starship (6× Raptor)",
+          "mesin": "Raptor 2",
+          "engines": 6,
+          "massaStruktur": 100000,
+          "massaBB": 1200000,
+          "thrust": 14700000,
+          "ispVac": 350,
+          "burnTime": 360,
+          "height": 50,
+          "colors": {
+            "body": 10264744,
+            "accent": 1973794
+          },
+          "hasFins": true
+        }
+      ],
+      "meta": {
+        "negara": "Amerika Serikat",
+        "operator": "SpaceX",
+        "sumber": "SpaceX (target/publik)",
+        "recovery": [
+          "Booster + Ship (rencana)"
+        ],
+        "missions": {
+          "leo": 150000,
+          "gto": 21000,
+          "tli": 100000
+        }
+      },
+      "assessment": {
+        "leo": {
+          "status": "ok",
+          "summary": "Margin Δv cukup untuk misi ini (perkiraan).",
+          "supported": true,
+          "totalDv": 9872.990080096872,
+          "dvRequired": 9400,
+          "twr": 1.4942376190171622,
+          "payload": 150000,
+          "liftoffMass": 5050000
+        },
+        "gto": {
+          "status": "ok",
+          "summary": "Margin Δv cukup untuk misi ini (perkiraan).",
+          "supported": true,
+          "totalDv": 12234.522818784468,
+          "dvRequired": 12000,
+          "twr": 1.5334078390645538,
+          "payload": 21000,
+          "liftoffMass": 4921000
+        },
+        "tli": {
+          "status": "warn",
+          "summary": "Δv total di bawah kebutuhan tipikal misi — payload mungkin harus dikurangi.",
+          "supported": true,
+          "totalDv": 10589.912541761863,
+          "dvRequired": 15700,
+          "twr": 1.5091799952073337,
+          "payload": 100000,
+          "liftoffMass": 5000000
+        }
+      }
+    },
+    {
+      "id": "saturnv",
+      "label": "Saturn V",
+      "tinggi": 111,
+      "diameter": 10.1,
+      "payloadLeo": 140000,
+      "reusable": "Sekali pakai",
+      "firstFlight": 1967,
+      "fuel": "Kerosene / LOX + Hidrogen / LOX",
+      "stages": [
+        {
+          "id": "sic",
+          "nama": "S-IC (5× F-1)",
+          "mesin": "F-1",
+          "engines": 5,
+          "massaStruktur": 131000,
+          "massaBB": 2077000,
+          "thrust": 33850000,
+          "ispVac": 263,
+          "burnTime": 168,
+          "height": 46,
+          "colors": {
+            "body": 15921904,
+            "accent": 1710618
+          },
+          "exhaustScale": 1.35
+        },
+        {
+          "id": "sii",
+          "nama": "S-II (5× J-2)",
+          "mesin": "J-2",
+          "engines": 5,
+          "massaStruktur": 40000,
+          "massaBB": 444000,
+          "thrust": 5141000,
+          "ispVac": 421,
+          "burnTime": 360,
+          "height": 32,
+          "colors": {
+            "body": 15658728,
+            "accent": 3815994
+          },
+          "exhaustScale": 0.75
+        },
+        {
+          "id": "sivb",
+          "nama": "S-IVB (1× J-2)",
+          "mesin": "J-2",
+          "engines": 1,
+          "massaStruktur": 13000,
+          "massaBB": 106000,
+          "thrust": 1033000,
+          "ispVac": 421,
+          "burnTime": 500,
+          "height": 22,
+          "colors": {
+            "body": 16119280,
+            "accent": 2763306
+          },
+          "exhaustScale": 0.55
+        },
+        {
+          "id": "les",
+          "nama": "Apollo (LM + CSM)",
+          "mesin": "—",
+          "engines": 0,
+          "massaStruktur": 12000,
+          "massaBB": 0,
+          "thrust": 0,
+          "ispVac": 0,
+          "burnTime": 0,
+          "height": 11,
+          "colors": {
+            "body": 14211280,
+            "accent": 8947848
+          },
+          "isPayload": true
+        }
+      ],
+      "meta": {
+        "negara": "Amerika Serikat",
+        "operator": "NASA",
+        "sumber": "NASA Apollo Program",
+        "recovery": [
+          "Sekali pakai"
+        ],
+        "missions": {
+          "leo": 140000,
+          "gto": null,
+          "tli": 43000
+        }
+      },
+      "assessment": {
+        "leo": {
+          "status": "marginal",
+          "summary": "Δv mendekati minimum — margin tipis.",
+          "supported": true,
+          "totalDv": 8823.911996648609,
+          "dvRequired": 9400,
+          "twr": 1.1649474792204817,
+          "payload": 140000,
+          "liftoffMass": 2963000
+        },
+        "gto": {
+          "status": "na",
+          "summary": "Roket ini tidak dikonfigurasi umum untuk misi ini.",
+          "supported": false,
+          "totalDv": 15555.133799451594,
+          "dvRequired": 12000,
+          "twr": 1.2227202908006685,
+          "payload": 0,
+          "liftoffMass": 2823000
+        },
+        "tli": {
+          "status": "warn",
+          "summary": "Δv total di bawah kebutuhan tipikal misi — payload mungkin harus dikurangi.",
+          "supported": true,
+          "totalDv": 11843.238825738714,
+          "dvRequired": 15700,
+          "twr": 1.2043752201431568,
+          "payload": 43000,
+          "liftoffMass": 2866000
+        }
+      }
+    },
+    {
+      "id": "soyuz",
+      "label": "Soyuz-2.1a",
+      "tinggi": 46.3,
+      "diameter": 2.95,
+      "payloadLeo": 7050,
+      "reusable": "Tidak",
+      "firstFlight": 2004,
+      "fuel": "Kerosene / LOX (RP-1)",
+      "stages": [
+        {
+          "id": "blok-b",
+          "nama": "4× Blok B (booster)",
+          "mesin": "RD-107A",
+          "engines": 4,
+          "massaStruktur": 14000,
+          "massaBB": 156400,
+          "thrust": 3352000,
+          "ispVac": 263,
+          "burnTime": 118,
+          "height": 19,
+          "colors": {
+            "body": 11051152,
+            "accent": 4868160
+          },
+          "exhaustScale": 0.85,
+          "layout": "soyuz-boosters"
+        },
+        {
+          "id": "blok-a",
+          "nama": "Blok A (inti tahap 1)",
+          "mesin": "RD-108A",
+          "engines": 4,
+          "massaStruktur": 6100,
+          "massaBB": 91500,
+          "thrust": 934000,
+          "ispVac": 263,
+          "burnTime": 286,
+          "height": 27,
+          "colors": {
+            "body": 11577496,
+            "accent": 4012597
+          },
+          "exhaustScale": 0.65
+        },
+        {
+          "id": "blok-i",
+          "nama": "Blok I (tahap 2)",
+          "mesin": "RD-0124",
+          "engines": 1,
+          "massaStruktur": 2350,
+          "massaBB": 22100,
+          "thrust": 297000,
+          "ispVac": 359,
+          "burnTime": 424,
+          "height": 7,
+          "colors": {
+            "body": 12368562,
+            "accent": 4539712
+          },
+          "exhaustScale": 0.45
+        },
+        {
+          "id": "fairing",
+          "nama": "Payload fairing",
+          "mesin": "—",
+          "engines": 0,
+          "massaStruktur": 1200,
+          "massaBB": 0,
+          "thrust": 0,
+          "ispVac": 0,
+          "burnTime": 0,
+          "height": 8,
+          "colors": {
+            "body": 14210766,
+            "accent": 10066329
+          },
+          "isFairing": true
+        }
+      ],
+      "meta": {
+        "negara": "Rusia",
+        "operator": "Roscosmos",
+        "sumber": "Roscosmos, NASA Launch Services",
+        "recovery": [
+          "Sekali pakai"
+        ],
+        "missions": {
+          "leo": 7050,
+          "gto": 3250,
+          "tli": null
+        }
+      },
+      "assessment": {
+        "leo": {
+          "status": "marginal",
+          "summary": "Δv mendekati minimum — margin tipis.",
+          "supported": true,
+          "totalDv": 8984.105700563965,
+          "dvRequired": 9400,
+          "twr": 1.136710590589297,
+          "payload": 7050,
+          "liftoffMass": 300700
+        },
+        "gto": {
+          "status": "warn",
+          "summary": "Δv total di bawah kebutuhan tipikal misi — payload mungkin harus dikurangi.",
+          "supported": true,
+          "totalDv": 10337.626333604636,
+          "dvRequired": 12000,
+          "twr": 1.1512592609976475,
+          "payload": 3250,
+          "liftoffMass": 296900
+        },
+        "tli": {
+          "status": "na",
+          "summary": "Roket ini tidak dikonfigurasi umum untuk misi ini.",
+          "supported": false,
+          "totalDv": 12422.116755495359,
+          "dvRequired": 15700,
+          "twr": 1.164000935093484,
+          "payload": 0,
+          "liftoffMass": 293650
+        }
+      }
+    },
+    {
+      "id": "sls",
+      "label": "SLS Block 1",
+      "tinggi": 98,
+      "diameter": 8.4,
+      "payloadLeo": 95000,
+      "reusable": "Tidak (Artemis)",
+      "firstFlight": 2022,
+      "fuel": "Hidrogen / LOX + booster padat",
+      "stages": [
+        {
+          "id": "srb",
+          "nama": "2× SRB (booster padat)",
+          "mesin": "Solid",
+          "engines": 2,
+          "massaStruktur": 164000,
+          "massaBB": 2512000,
+          "thrust": 32000000,
+          "ispVac": 269,
+          "burnTime": 126,
+          "height": 40,
+          "colors": {
+            "body": 15263456,
+            "accent": 2763306
+          },
+          "exhaustScale": 1.2,
+          "layout": "sls-srb"
+        },
+        {
+          "id": "core",
+          "nama": "Core Stage (4× RS-25)",
+          "mesin": "RS-25",
+          "engines": 4,
+          "massaStruktur": 85000,
+          "massaBB": 1265000,
+          "thrust": 7440000,
+          "ispVac": 452,
+          "burnTime": 484,
+          "height": 50,
+          "colors": {
+            "body": 14576431,
+            "accent": 9127187
+          },
+          "exhaustScale": 0.9
+        },
+        {
+          "id": "icps",
+          "nama": "ICPS (1× RL10)",
+          "mesin": "RL10C-1",
+          "engines": 1,
+          "massaStruktur": 2700,
+          "massaBB": 25200,
+          "thrust": 110000,
+          "ispVac": 462,
+          "burnTime": 1125,
+          "height": 12,
+          "diameterScale": 0.52,
+          "colors": {
+            "body": 15790316,
+            "accent": 5592405
+          },
+          "exhaustScale": 0.4
+        },
+        {
+          "id": "orion",
+          "nama": "Orion spacecraft",
+          "mesin": "—",
+          "engines": 0,
+          "massaStruktur": 10400,
+          "massaBB": 0,
+          "thrust": 0,
+          "ispVac": 0,
+          "burnTime": 0,
+          "height": 10,
+          "diameterScale": 0.45,
+          "colors": {
+            "body": 15263976,
+            "accent": 3368601
+          },
+          "isPayload": true
+        }
+      ],
+      "meta": {
+        "negara": "Amerika Serikat",
+        "operator": "NASA",
+        "sumber": "NASA SLS Program",
+        "recovery": [
+          "Sekali pakai (Artemis)"
+        ],
+        "missions": {
+          "leo": 95000,
+          "gto": null,
+          "tli": 27000
+        }
+      },
+      "assessment": {
+        "leo": {
+          "status": "warn",
+          "summary": "TWR liftoff rendah — mungkin tidak lepas landas dengan payload penuh.",
+          "supported": true,
+          "totalDv": 11886.268453483062,
+          "dvRequired": 9400,
+          "twr": 0.7845290990141058,
+          "payload": 95000,
+          "liftoffMass": 4159300
+        },
+        "gto": {
+          "status": "na",
+          "summary": "Roket ini tidak dikonfigurasi umum untuk misi ini.",
+          "supported": false,
+          "totalDv": 18132.04122134857,
+          "dvRequired": 12000,
+          "twr": 0.8028668852027091,
+          "payload": 0,
+          "liftoffMass": 4064300
+        },
+        "tli": {
+          "status": "warn",
+          "summary": "TWR liftoff rendah — mungkin tidak lepas landas dengan payload penuh.",
+          "supported": true,
+          "totalDv": 14660.235307499312,
+          "dvRequired": 15700,
+          "twr": 0.7975684700533744,
+          "payload": 27000,
+          "liftoffMass": 4091300
+        }
+      }
+    }
+  ]
+}

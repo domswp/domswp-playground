@@ -47,3 +47,17 @@ src/
   rockets.js     — data + Tsiolkovsky
   ui.js          — panel info
 ```
+
+
+## Simulasi + spesifikasi + kondisi
+
+| Fitur | Keterangan |
+|-------|------------|
+| **Misi** | LEO, GTO, TLI — ubah payload & penilaian Δv |
+| **Kondisi** | Normal / panas / dingin — pengali thrust |
+| **Panel simulasi** | Liftoff mass, TWR, Δv total vs kebutuhan misi |
+| **Staging** | Urutan event + animasi api |
+| **Bandingkan** | Dua roket untuk misi & lingkungan yang sama |
+| **Katalog JSON** | `data/rockets-catalog.json` (`npm run export-catalog`) |
+
+Klik stage untuk spesifikasi stage dengan misi aktif.

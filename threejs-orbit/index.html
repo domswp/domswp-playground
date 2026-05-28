@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>Orbit Viewer — Roket orbital</title>
+    <title>Orbit Viewer — Simulasi roket</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
@@ -12,7 +12,7 @@
 
       <header class="hud top">
         <h1>Orbit Viewer</h1>
-        <p class="sub">Klik stage roket · drag untuk orbit · scroll zoom</p>
+        <p class="sub">Spesifikasi · misi · staging · bandingkan roket</p>
       </header>
 
       <div class="hud controls">
@@ -24,11 +24,39 @@
           <option value="soyuz">Soyuz-2.1a</option>
           <option value="sls">SLS Block 1 (Artemis)</option>
         </select>
+
+        <label for="mission-select">Misi</label>
+        <select id="mission-select">
+          <option value="leo">LEO</option>
+          <option value="gto">GTO</option>
+          <option value="tli">TLI (Bulan)</option>
+        </select>
+
+        <label for="env-select">Kondisi</label>
+        <select id="env-select">
+          <option value="standard">Normal</option>
+          <option value="hot">Panas</option>
+          <option value="cold">Dingin</option>
+        </select>
+
         <button type="button" id="btn-stage" class="ghost">Peluncuran & staging</button>
+        <label for="compare-select" id="compare-label" class="compare-only hidden">vs</label>
+        <select id="compare-select" class="compare-only hidden">
+          <option value="saturnv">Saturn V</option>
+          <option value="falcon9">Falcon 9</option>
+          <option value="starship">Starship</option>
+          <option value="sls">SLS</option>
+          <option value="soyuz">Soyuz</option>
+        </select>
+        <button type="button" id="btn-compare" class="ghost">Bandingkan</button>
         <button type="button" id="btn-reset" class="ghost">Reset kamera</button>
       </div>
 
-      <aside id="info-panel" class="hud panel hidden">
+      <aside id="mission-panel" class="hud panel mission"></aside>
+
+      <aside id="compare-panel" class="hud panel compare hidden"></aside>
+
+      <aside id="info-panel" class="hud panel stage hidden">
         <button type="button" id="panel-close" aria-label="Tutup">×</button>
         <h2 id="panel-title">—</h2>
         <dl id="panel-stats"></dl>

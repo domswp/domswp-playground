@@ -3,8 +3,6 @@
  * Tinggi stage: proporsional untuk visual 3D.
  */
 
-const G0 = 9.80665;
-
 export const ROCKETS = {
   falcon9: {
     id: "falcon9",
@@ -309,55 +307,18 @@ export const ROCKETS = {
   },
 };
 
-/** Massa total basah di atas stage index (termasuk stage itu + di atasnya + payload). */
-export function massAbove(rocket, stageIndex, payloadKg = 0) {
-  let m = payloadKg;
-  for (let i = rocket.stages.length - 1; i >= stageIndex; i--) {
-    const s = rocket.stages[i];
-    if (s.isFairing || s.isPayload) {
-      m += s.massaStruktur;
-    } else {
-      m += s.massaStruktur + s.massaBB;
-    }
-  }
-  return m;
-}
-
-/** Δv stage tunggal (Tsiolkovsky), kg. */
-export function deltaVStage(stage, m0, mf) {
-  if (!stage.ispVac || stage.massaBB === 0) return 0;
-  if (mf <= 0 || m0 <= mf) return 0;
-  return stage.ispVac * G0 * Math.log(m0 / mf);
-}
-
-export function computeStageStats(rocket, stageIndex) {
-  const stage = rocket.stages[stageIndex];
-  const payload = stage.isFairing || stage.isPayload ? 0 : rocket.payloadLeo * 0.3; // perkiraan untuk demo
-  const m0 = massAbove(rocket, stageIndex, stage.isFairing || stage.isPayload ? rocket.payloadLeo : payload);
-  const mf = stage.isFairing || stage.isPayload
-    ? m0 - stage.massaStruktur
-    : m0 - stage.massaBB;
-  const dv = deltaVStage(stage, m0, mf);
-  const twr =
-    stage.thrust > 0 && m0 > 0 ? (stage.thrust / (m0 * G0)).toFixed(2) : "—";
-
-  return {
-    m0,
-    mf,
-    dv,
-    twr,
-    payloadUsed: stage.isFairing || stage.isPayload ? rocket.payloadLeo : payload,
-  };
-}
-
-export function formatMass(kg) {
-  if (kg >= 1_000_000) return `${(kg / 1_000_000).toFixed(2)} t`;
-  if (kg >= 1_000) return `${(kg / 1_000).toFixed(1)} t`;
-  return `${kg.toFixed(0)} kg`;
-}
-
-export function formatThrust(n) {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)} MN`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(0)} kN`;
-  return `${n.toFixed(0)} N`;
-}
+// Perhitungan misi & Δv → simulation.js
+export {
+  massAbove,
+  computeStageStats,
+  computeTotalDeltaV,
+  assessMission,
+  getMissionPayload,
+  missionSupported,
+  getStagingEvents,
+  getMeta,
+  liftoffMass,
+  computeLiftoffTwr,
+} from "./simulation.js";
+export { formatMass, formatThrust, formatDv } from "./format.js";
+export { MISSIONS, ENVIRONMENTS, ROCKET_META } from "./rocketMeta.js";
