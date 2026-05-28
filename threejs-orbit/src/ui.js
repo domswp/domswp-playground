@@ -63,7 +63,7 @@ export function showStageInfo(rocketKey, stageIndex) {
     .join("");
 
   noteEl.textContent =
-    "* m₀/mf/Δv/TWR: perkiraan dari data rocket-sim (Tsiolkovsky). Bukan data penerbangan real-time. Klik stage lain atau ganti roket.";
+    "* m₀/mf/Δv/TWR: perkiraan dari referensi online (Tsiolkovsky). Bukan data penerbangan real-time. Klik stage lain atau ganti roket.";
 
   panel.classList.remove("hidden");
 }
