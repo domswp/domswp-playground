@@ -1,6 +1,6 @@
 /**
- * Data roket — selaras dengan rocket-sim/04_falcon9_vs_starship.py
- * Tinggi stage: perkiraan proporsional untuk visual 3D.
+ * Data roket — perkiraan dari referensi online (NASA, Roscosmos, SpaceX, dll.).
+ * Tinggi stage: proporsional untuk visual 3D.
  */
 
 const G0 = 9.80665;
