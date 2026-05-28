@@ -11,9 +11,11 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 
 ## Tentang Repo Ini
 
-- Repo ini (`domswp-playground`) adalah sandbox/playground untuk eksperimen dan belajar Cursor
-- **GitHub Pages (public):** https://domswp.github.io/domswp-playground/
+- Repo GitHub: `domswp-playground` — **tampilan hub:** **Lab Domas** · subtitle *Ruang eksperimen dan belajar*
+- **GitHub Pages (hub):** https://domswp.github.io/domswp-playground/
+- Lab = portofolio **demo online** (bukan cuma angkasa; eksperimen lain menyusul) — **bukan** mengganti portfolio utama
 - Portfolio/pembelajaran utama user di repo lain: https://domswp.github.io/profile-domswp/ — **jangan tertimpa**
+- **Hub hanya list proyek yang sudah deploy di Pages** (sekarang: Orbit Viewer, ISS Tracker) — `rocket-sim/`, `daily-news/` tidak perlu di hub
 - Profil user: `profile.md`
 
 ## Ide & Project
@@ -61,6 +63,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | 2026-05-28 | `iss-tracker/` — ISS live 3D (TLE + satellite.js + wheretheiss.at) |
 | 2026-05-28 | ISS Tracker: deploy Pages OK; user konfirmasi live & akurat untuk visual |
 | 2026-05-28 | Fix mobile: hapus bug `resizeObserver` (PR #17); TLE cadangan + timeout fetch |
+| 2026-05-28 | Hub rebrand: **Lab Domas** — Ruang eksperimen dan belajar; hanya demo Pages; campur ID/EN OK |
 
 ## Catatan Penting
 
