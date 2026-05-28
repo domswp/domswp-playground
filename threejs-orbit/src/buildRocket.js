@@ -83,6 +83,27 @@ function starshipFin(radius, y, angle) {
 }
 
 
+
+function buildSlsSrbs(stageGroup, coreR, h, colors) {
+  const br = coreR * 0.42;
+  const bh = h * 0.94;
+  const pairs = [
+    [coreR * 1.28, 0, 0],
+    [-coreR * 1.28, 0, 0],
+  ];
+  pairs.forEach(([x, , z]) => {
+    const body = cylinder(br, bh, colors.body, bh / 2);
+    body.position.set(x, 0, z);
+    stageGroup.add(body);
+    const nozzle = cylinder(br * 0.55, bh * 0.08, colors.accent, bh * 0.04);
+    nozzle.position.set(x, 0, z);
+    stageGroup.add(nozzle);
+    const bell = engineBell(br * 0.5, bh * 0.04);
+    bell.position.set(x, 0, z);
+    stageGroup.add(bell);
+  });
+}
+
 function buildSoyuzBoosters(stageGroup, coreR, h, colors) {
   const br = coreR * 0.82;
   const bh = h * 0.92;
@@ -122,6 +143,7 @@ export function buildRocketMesh(rocket) {
   let stackY = 0;
 
   rocket.stages.forEach((stage, index) => {
+    const stageR = r * (stage.diameterScale ?? 1);
     const stageGroup = new THREE.Group();
     stageGroup.name = stage.id;
     stageGroup.userData = {
@@ -133,33 +155,35 @@ export function buildRocketMesh(rocket) {
 
     const h = stage.height * SCALE;
 
-    if (stage.layout === "soyuz-boosters") {
+    if (stage.layout === "sls-srb") {
+      buildSlsSrbs(stageGroup, r, h, stage.colors);
+    } else if (stage.layout === "soyuz-boosters") {
       buildSoyuzBoosters(stageGroup, r, h, stage.colors);
     } else if (stage.isFairing) {
-      stageGroup.add(cone(r * 1.02, h, stage.colors.body, h / 2));
+      stageGroup.add(cone(stageR * 1.02, h, stage.colors.body, h / 2));
     } else if (stage.isPayload) {
       const bodyH = h * 0.65;
-      stageGroup.add(cylinder(r * 0.75, bodyH, stage.colors.body, bodyH / 2));
-      stageGroup.add(cone(r * 0.55, h * 0.35, stage.colors.accent, bodyH + h * 0.15));
+      stageGroup.add(cylinder(stageR * 0.85, bodyH, stage.colors.body, bodyH / 2));
+      stageGroup.add(cone(stageR * 0.7, h * 0.35, stage.colors.accent, bodyH + h * 0.15));
     } else {
       const bodyH = h * 0.88;
-      stageGroup.add(cylinder(r, bodyH, stage.colors.body, bodyH / 2));
+      stageGroup.add(cylinder(stageR, bodyH, stage.colors.body, bodyH / 2));
 
       const skirtH = h * 0.12;
-      stageGroup.add(cylinder(r * 1.02, skirtH, stage.colors.accent, skirtH / 2));
+      stageGroup.add(cylinder(stageR * 1.02, skirtH, stage.colors.accent, skirtH / 2));
 
       if (rocket.id === "saturnv" && index === 0) {
-        saturnRollPattern(stageGroup, r, bodyH);
+        saturnRollPattern(stageGroup, stageR, bodyH);
       }
 
       const engineY = skirtH * 0.5;
       if (stage.engines > 0) {
-        addEngines(stageGroup, r, stage.engines, engineY);
+        addEngines(stageGroup, stageR, stage.engines, engineY);
       }
 
       if (index === 0 && rocket.id === "falcon9") {
         for (let i = 0; i < 4; i++) {
-          const fin = gridFin(r, h * 0.22);
+          const fin = gridFin(stageR, h * 0.22);
           fin.rotation.y = (i / 4) * Math.PI * 2;
           stageGroup.add(fin);
         }
@@ -167,9 +191,9 @@ export function buildRocketMesh(rocket) {
 
       if (stage.hasFins) {
         for (let i = 0; i < 4; i++) {
-          stageGroup.add(starshipFin(r, h * 0.35, (i / 4) * Math.PI * 2));
+          stageGroup.add(starshipFin(stageR, h * 0.35, (i / 4) * Math.PI * 2));
         }
-        stageGroup.add(cone(r * 0.85, h * 0.18, 0xd0d2d8, h - h * 0.09));
+        stageGroup.add(cone(stageR * 0.85, h * 0.18, 0xd0d2d8, h - h * 0.09));
       }
     }
 
