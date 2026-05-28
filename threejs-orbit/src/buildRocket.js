@@ -3,7 +3,7 @@ import * as THREE from "three";
 const SCALE = 0.08;
 
 function cylinder(radius, height, color, yCenter) {
-  const geo = new THREE.CylinderGeometry(radius, radius, height, 32);
+  const geo = new THREE.CylinderGeometry(radius, height > 0 ? radius * 0.98 : radius, height, 32);
   const mat = new THREE.MeshStandardMaterial({
     color,
     metalness: 0.35,
@@ -41,6 +41,22 @@ function engineBell(radius, y) {
   return mesh;
 }
 
+function addEngines(stageGroup, r, engineCount, engineY) {
+  const bells = engineCount > 1 ? Math.min(engineCount, 9) : 1;
+  if (bells === 1) {
+    stageGroup.add(engineBell(r, engineY));
+    return;
+  }
+  const ringR = r * (engineCount === 5 ? 0.5 : 0.55);
+  for (let i = 0; i < bells; i++) {
+    const a = (i / bells) * Math.PI * 2;
+    const bell = engineBell(r * (engineCount === 5 ? 0.2 : 0.22), engineY);
+    bell.position.x = Math.cos(a) * ringR;
+    bell.position.z = Math.sin(a) * ringR;
+    stageGroup.add(bell);
+  }
+}
+
 function gridFin(radius, y) {
   const shape = new THREE.Shape();
   const w = radius * 0.35;
@@ -66,6 +82,12 @@ function starshipFin(radius, y, angle) {
   return fin;
 }
 
+function saturnRollPattern(stageGroup, r, bodyH) {
+  const band = cylinder(r * 1.005, bodyH * 0.08, 0x1a1a1a, bodyH * 0.92);
+  const band2 = cylinder(r * 1.005, bodyH * 0.06, 0x1a1a1a, bodyH * 0.55);
+  stageGroup.add(band, band2);
+}
+
 /**
  * @returns {{ root: THREE.Group, stageMeshes: THREE.Object3D[], totalHeight: number }}
  */
@@ -83,12 +105,17 @@ export function buildRocketMesh(rocket) {
       stageIndex: index,
       rocketId: rocket.id,
       label: stage.nama,
+      hasEngines: !stage.isFairing && !stage.isPayload && stage.engines > 0,
     };
 
     const h = stage.height * SCALE;
 
     if (stage.isFairing) {
       stageGroup.add(cone(r * 1.02, h, stage.colors.body, h / 2));
+    } else if (stage.isPayload) {
+      const bodyH = h * 0.65;
+      stageGroup.add(cylinder(r * 0.75, bodyH, stage.colors.body, bodyH / 2));
+      stageGroup.add(cone(r * 0.55, h * 0.35, stage.colors.accent, bodyH + h * 0.15));
     } else {
       const bodyH = h * 0.88;
       stageGroup.add(cylinder(r, bodyH, stage.colors.body, bodyH / 2));
@@ -96,19 +123,13 @@ export function buildRocketMesh(rocket) {
       const skirtH = h * 0.12;
       stageGroup.add(cylinder(r * 1.02, skirtH, stage.colors.accent, skirtH / 2));
 
+      if (rocket.id === "saturnv" && index === 0) {
+        saturnRollPattern(stageGroup, r, bodyH);
+      }
+
       const engineY = skirtH * 0.5;
-      const bells = stage.engines > 1 ? Math.min(stage.engines, 9) : 1;
-      if (bells === 1) {
-        stageGroup.add(engineBell(r, engineY));
-      } else {
-        const ringR = r * 0.55;
-        for (let i = 0; i < bells; i++) {
-          const a = (i / bells) * Math.PI * 2;
-          const bell = engineBell(r * 0.22, engineY);
-          bell.position.x = Math.cos(a) * ringR;
-          bell.position.z = Math.sin(a) * ringR;
-          stageGroup.add(bell);
-        }
+      if (stage.engines > 0) {
+        addEngines(stageGroup, r, stage.engines, engineY);
       }
 
       if (index === 0 && rocket.id === "falcon9") {
