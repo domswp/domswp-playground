@@ -82,6 +82,29 @@ function starshipFin(radius, y, angle) {
   return fin;
 }
 
+
+function buildSoyuzBoosters(stageGroup, coreR, h, colors) {
+  const br = coreR * 0.82;
+  const bh = h * 0.92;
+  const offsets = [
+    [coreR * 1.12, 0, 0],
+    [-coreR * 1.12, 0, 0],
+    [0, 0, coreR * 1.12],
+    [0, 0, -coreR * 1.12],
+  ];
+  offsets.forEach(([x, , z]) => {
+    const body = cylinder(br, bh, colors.body, bh / 2);
+    body.position.set(x, 0, z);
+    stageGroup.add(body);
+    const skirt = cylinder(br * 1.03, bh * 0.1, colors.accent, bh * 0.05);
+    skirt.position.set(x, 0, z);
+    stageGroup.add(skirt);
+    const bell = engineBell(br * 0.55, bh * 0.05);
+    bell.position.set(x, 0, z);
+    stageGroup.add(bell);
+  });
+}
+
 function saturnRollPattern(stageGroup, r, bodyH) {
   const band = cylinder(r * 1.005, bodyH * 0.08, 0x1a1a1a, bodyH * 0.92);
   const band2 = cylinder(r * 1.005, bodyH * 0.06, 0x1a1a1a, bodyH * 0.55);
@@ -110,7 +133,9 @@ export function buildRocketMesh(rocket) {
 
     const h = stage.height * SCALE;
 
-    if (stage.isFairing) {
+    if (stage.layout === "soyuz-boosters") {
+      buildSoyuzBoosters(stageGroup, r, h, stage.colors);
+    } else if (stage.isFairing) {
       stageGroup.add(cone(r * 1.02, h, stage.colors.body, h / 2));
     } else if (stage.isPayload) {
       const bodyH = h * 0.65;
