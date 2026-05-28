@@ -2,37 +2,34 @@
 
 ## Cursor Cloud specific instructions
 
-Playground repo (`domswp-playground`) — satu folder per eksperimen.
+Playground (`domswp-playground`) — satu folder per eksperimen.
 
 ### Projects
 
 | Folder | Stack | Notes |
 |--------|-------|-------|
-| `rocket-sim/` | Python, matplotlib, numpy | **Jangan ubah** kecuali user minta |
-| `daily-news/` | Python, feedparser | RSS digest — `reports/` |
-| `threejs-orbit/` | Vite, Three.js | Falcon 9 & Starship 3D viewer |
+| `rocket-sim/` | Python, matplotlib | **Jangan ubah** kecuali user minta |
+| `daily-news/` | Python, feedparser | `python3 run_daily.py` → `reports/` |
+| `threejs-orbit/` | Vite, Three.js | Orbit Viewer + simulasi misi |
 
-### GitHub Pages
+### GitHub Pages (repo public)
 
 - Hub: https://domswp.github.io/domswp-playground/
 - Orbit Viewer: https://domswp.github.io/domswp-playground/threejs-orbit/
 - Portfolio user (repo lain): https://domswp.github.io/profile-domswp/
-
-Workflow: `.github/workflows/github-pages.yml` — deploy on push to `main`.
+- Deploy: branch `main`, folder `/docs` + workflow `github-pages.yml`
 
 ### threejs-orbit
 
 ```bash
 cd threejs-orbit && npm install && npm run dev
+npm run build:pages   # untuk GitHub Pages
+npm run export-catalog  # data/rockets-catalog.json
 ```
 
-Build Pages: `npm run build:pages`
-
-### rocket-sim
-
-```bash
-cd rocket-sim && pip install -r requirements.txt && python3 01_tsiolkovsky.py
-```
+- Roket: falcon9, starship, saturnv, soyuz, sls
+- Panel simulasi **default collapsed** — jangan layout yang menutupi canvas
+- Kode: `simulation.js`, `rocketMeta.js`, `ui.js`
 
 ### daily-news
 
