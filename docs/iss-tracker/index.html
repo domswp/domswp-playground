@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>ISS Tracker — posisi live 3D</title>
+    <script type="module" crossorigin src="/domswp-playground/iss-tracker/assets/index-Ca3GeMdt.js"></script>
+    <link rel="stylesheet" crossorigin href="/domswp-playground/iss-tracker/assets/index-cYxhEoG8.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="canvas"></canvas>
+
+      <header class="hud top">
+        <h1>ISS Tracker</h1>
+        <p class="sub">Orbit halus (TLE) · sinkron API tiap ~45 dtk</p>
+      </header>
+
+      <div class="hud controls">
+        <button type="button" id="btn-follow" class="ghost">Ikuti ISS</button>
+        <button type="button" id="btn-orbit" class="ghost active">Jalur orbit</button>
+        <button type="button" id="btn-reset" class="ghost">Reset kamera</button>
+        <span id="status-chip" class="chip" role="status">Memuat…</span>
+      </div>
+
+      <aside id="telemetry-panel" class="hud panel telemetry collapsed" aria-label="Telemetri ISS">
+        <button type="button" id="telemetry-toggle" class="panel-toggle" aria-expanded="false">
+          <span class="toggle-title">Telemetri</span>
+          <span class="toggle-summary" id="telemetry-summary">—</span>
+          <span class="chevron" aria-hidden="true">▲</span>
+        </button>
+        <div id="telemetry-body" class="panel-body">
+          <dl class="stats-compact" id="telemetry-stats"></dl>
+          <p class="note" id="telemetry-note"></p>
+        </div>
+      </aside>
+
+      <footer class="hud bottom">
+        <span
+          >Posisi dihitung dari TLE (SGP4) + koreksi API
+          <a href="https://wheretheiss.at/" target="_blank" rel="noopener">wheretheiss.at</a>. Bukan data resmi
+          NASA.</span
+        >
+      </footer>
+    </div>
+  </body>
+</html>

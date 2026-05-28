@@ -1,0 +1,19 @@
+{
+  "name": "iss-tracker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "build:pages": "GITHUB_PAGES=true vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "satellite.js": "^6.0.1",
+    "three": "^0.177.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

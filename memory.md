@@ -23,6 +23,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | `rocket-sim/` | Belajar rocket engineering (Python, Tsiolkovsky, staging) | Selesai pemula — **jangan ubah** kecuali diminta |
 | `daily-news/` | Digest berita RSS + analisis/kontradiksi | Aktif — GH Actions 07:00 WIB |
 | `threejs-orbit/` | Orbit Viewer 3D + simulasi misi | Aktif — lihat bawah |
+| `iss-tracker/` | ISS live 3D (TLE + satellite.js + API) | Aktif — lihat bawah |
 
 ### threejs-orbit (build terbaru)
 
@@ -32,7 +33,13 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **UI:** panel "Simulasi misi" **collapsible** (default tertutup) — jangan menutupi roket 3D
 - **Fitur:** peluncuran & staging + api, bandingkan 2 roket, klik stage = spesifikasi
 - **Data:** `rocketMeta.js`, `simulation.js`, katalog `data/rockets-catalog.json`
-- **Roadmap user:** ISS live 3D (belum), roket berikutnya mis. Electron
+- **Roadmap user:** roket berikutnya mis. Electron
+
+### iss-tracker
+
+- **Live:** https://domswp.github.io/domswp-playground/iss-tracker/
+- **Stack:** TLE + `satellite.js` (halus), API [wheretheiss.at](https://wheretheiss.at/) tiap ~45 dtk
+- **UI:** panel telemetri collapsible (default tertutup)
 
 ## Keputusan
 
@@ -46,6 +53,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | 2026-05-28 | Orbit Viewer: simulasi + bandingkan + roket (Saturn V, Soyuz, SLS) |
 | 2026-05-28 | Panel simulasi collapsible — area tengah untuk 3D (mobile & desktop) |
 | 2026-05-28 | Footer viewer: data dari referensi online, bukan rocket-sim/ saja |
+| 2026-05-28 | `iss-tracker/` — ISS live 3D (TLE + satellite.js + wheretheiss.at) |
 
 ## Catatan Penting
 
