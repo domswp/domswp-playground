@@ -7,7 +7,7 @@ Viewer 3D low-poly untuk eksplorasi roket SpaceX. Data massa/thrust/Isp selaras 
 ## Fitur
 
 - Orbit camera (drag, scroll zoom) — cocok mobile
-- Pilih **Falcon 9**, **Starship**, **Saturn V**, atau **Soyuz-2.1a**
+- Pilih **Falcon 9**, **Starship**, **Saturn V**, atau **Soyuz-2.1a**, **SLS Block 1**
 - **Klik stage** → panel info (massa, thrust, Δv perkiraan, TWR)
 - **Simulasi staging** — pisahkan stage secara visual
 
