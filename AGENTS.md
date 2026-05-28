@@ -15,7 +15,7 @@ Playground (`domswp-playground`) — satu folder per eksperimen.
 
 ### GitHub Pages (repo public)
 
-- Hub: https://domswp.github.io/domswp-playground/
+- Hub (**Lab Domas**): https://domswp.github.io/domswp-playground/ — hanya demo Pages di `docs/index.html`
 - Orbit Viewer: https://domswp.github.io/domswp-playground/threejs-orbit/
 - ISS Tracker: https://domswp.github.io/domswp-playground/iss-tracker/
 - Portfolio user (repo lain): https://domswp.github.io/profile-domswp/
