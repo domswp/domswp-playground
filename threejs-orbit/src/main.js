@@ -67,6 +67,7 @@ let rocketKey = "falcon9";
 let staged = false;
 let stagingAnimating = false;
 let selectedMesh = null;
+let selectedStageIndex = null;
 const highlightMat = new THREE.MeshStandardMaterial({
   color: 0xffb347,
   emissive: 0x553300,
@@ -200,11 +201,13 @@ function clearHighlight() {
     if (o.isMesh && originalMaterials.has(o)) o.material = originalMaterials.get(o);
   });
   selectedMesh = null;
+  selectedStageIndex = null;
 }
 
 function highlightStage(stageGroup) {
   clearHighlight();
   selectedMesh = stageGroup;
+  selectedStageIndex = stageGroup.userData.stageIndex;
   stageGroup.traverse((o) => {
     if (o.isMesh) {
       originalMaterials.set(o, o.material);
@@ -337,6 +340,9 @@ initUI({
   onRocketChange: loadRocket,
   onStageToggle: applyStaging,
   onResetCamera: () => resetCamera(rocketRoot?.userData.totalHeight),
+  onSimChange: () => {
+    if (selectedStageIndex != null) showStageInfo(rocketKey, selectedStageIndex);
+  },
 });
 
 loadRocket("falcon9");
