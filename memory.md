@@ -33,13 +33,18 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **UI:** panel "Simulasi misi" **collapsible** (default tertutup) — jangan menutupi roket 3D
 - **Fitur:** peluncuran & staging + api, bandingkan 2 roket, klik stage = spesifikasi
 - **Data:** `rocketMeta.js`, `simulation.js`, katalog `data/rockets-catalog.json`
-- **Roadmap user:** roket berikutnya mis. Electron
+- **Roadmap user:** roket berikutnya mis. Electron (ISS live 3D ✅ selesai di `iss-tracker/`)
 
-### iss-tracker
+### iss-tracker (berhasil — mobile & Pages)
 
 - **Live:** https://domswp.github.io/domswp-playground/iss-tracker/
-- **Stack:** TLE + `satellite.js` (halus), API [wheretheiss.at](https://wheretheiss.at/) tiap ~45 dtk
-- **UI:** panel telemetri collapsible (default tertutup)
+- **Status user (2026-05-28):** Sudah jalan di mobile web + GitHub Pages; posisi ISS **live** (orbit nyata, bukan simulasi fiksi)
+- **Stack:** TLE + `satellite.js` (SGP4, halus tiap frame), sinkron API [wheretheiss.at](https://wheretheiss.at/) tiap ~45 dtk, refresh TLE tiap 6 jam
+- **API di Pages:** Bisa pakai API luar langsung dari browser (HTTPS + CORS `*`) — bukan blocker untuk GitHub Pages
+- **UI:** panel telemetri collapsible (default tertutup); tombol ikuti ISS, jalur orbit, reset kamera
+- **Data:** Bukan telemetri resmi NASA — TLE + API publik, delay beberapa detik; cukup untuk edukasi / visual “ISS di mana sekarang”
+- **Bug pernah:** `resizeObserver` typo → layar hitam + chip “Memuat…” stuck — diperbaiki PR #17
+- **Kode utama:** `iss-tracker/src/main.js`, `issPropagation.js`, `api.js`, `earth.js`
 
 ## Keputusan
 
@@ -54,6 +59,8 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | 2026-05-28 | Panel simulasi collapsible — area tengah untuk 3D (mobile & desktop) |
 | 2026-05-28 | Footer viewer: data dari referensi online, bukan rocket-sim/ saja |
 | 2026-05-28 | `iss-tracker/` — ISS live 3D (TLE + satellite.js + wheretheiss.at) |
+| 2026-05-28 | ISS Tracker: deploy Pages OK; user konfirmasi live & akurat untuk visual |
+| 2026-05-28 | Fix mobile: hapus bug `resizeObserver` (PR #17); TLE cadangan + timeout fetch |
 
 ## Catatan Penting
 
