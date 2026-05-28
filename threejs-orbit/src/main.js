@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { ROCKETS } from "./rockets.js";
-import { buildRocketMesh } from "./buildRocket.js";
-import { initUI, showStageInfo, hidePanel, setStageButtonLabel } from "./ui.js";
+import { buildRocketMesh, SCALE } from "./buildRocket.js";
+import { createStageExhaust } from "./exhaust.js";
+import { initUI, showStageInfo, hidePanel, setStageButtonLabel, setStageButtonDisabled } from "./ui.js";
 
 const canvas = document.getElementById("canvas");
 
@@ -29,19 +30,17 @@ scene.add(new THREE.AmbientLight(0x404060, 0.6));
 const sun = new THREE.DirectionalLight(0xfff5e6, 1.2);
 sun.position.set(30, 50, 20);
 sun.castShadow = true;
-sun.shadow.mapSize.set(1024, 1024);
 scene.add(sun);
 const rim = new THREE.DirectionalLight(0x5eb3ff, 0.35);
 rim.position.set(-20, 10, -15);
 scene.add(rim);
 
 const pad = new THREE.Mesh(
-  new THREE.CircleGeometry(12, 64),
+  new THREE.CircleGeometry(14, 64),
   new THREE.MeshStandardMaterial({ color: 0x1a2030, metalness: 0.2, roughness: 0.8 })
 );
 pad.rotation.x = -Math.PI / 2;
 pad.position.y = -0.02;
-pad.receiveShadow = true;
 scene.add(pad);
 
 const stars = (() => {
@@ -57,15 +56,16 @@ const stars = (() => {
     pos[i * 3 + 2] = r * Math.sin(p) * Math.sin(t);
   }
   geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({ color: 0x99aacc, size: 0.15, sizeAttenuation: true });
-  return new THREE.Points(geo, mat);
+  return new THREE.Points(geo, new THREE.PointsMaterial({ color: 0x99aacc, size: 0.15 }));
 })();
 scene.add(stars);
 
 let rocketRoot = null;
 let stageMeshes = [];
+let exhausts = [];
 let rocketKey = "falcon9";
 let staged = false;
+let stagingAnimating = false;
 let selectedMesh = null;
 const highlightMat = new THREE.MeshStandardMaterial({
   color: 0xffb347,
@@ -74,9 +74,9 @@ const highlightMat = new THREE.MeshStandardMaterial({
   roughness: 0.4,
 });
 const originalMaterials = new Map();
-
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+let lastTime = performance.now();
 
 function resize() {
   const w = window.innerWidth;
@@ -87,6 +87,47 @@ function resize() {
 }
 window.addEventListener("resize", resize);
 resize();
+
+function stageHeight(i) {
+  return ROCKETS[rocketKey].stages[i].height * SCALE;
+}
+
+function isEngineStage(i) {
+  const s = ROCKETS[rocketKey].stages[i];
+  return !s.isFairing && !s.isPayload && s.engines > 0;
+}
+
+function getStackedY(index) {
+  let y = 0;
+  for (let i = 0; i < index; i++) y += stageHeight(i);
+  return y;
+}
+
+function getStagedY(index) {
+  let y = 0;
+  const gap = 3.5;
+  for (let i = 0; i < index; i++) {
+    if (i > 0) y += gap;
+    y += stageHeight(i);
+  }
+  return y;
+}
+
+function setExhaustActive(index, on, power = 1) {
+  const ex = exhausts[index];
+  if (ex) ex.setActive(on, power);
+}
+
+function setAllExhaust(off) {
+  exhausts.forEach((ex, i) => {
+    if (ex) ex.setActive(!off && isEngineStage(i), off ? 0 : 1);
+  });
+}
+
+function disposeExhausts() {
+  exhausts.forEach((ex) => ex?.dispose());
+  exhausts = [];
+}
 
 function clearRocket() {
   if (rocketRoot) {
@@ -99,20 +140,29 @@ function clearRocket() {
       }
     });
   }
+  disposeExhausts();
   rocketRoot = null;
   stageMeshes = [];
   originalMaterials.clear();
   clearHighlight();
 }
 
-function restackStages() {
-  let stackY = 0;
-  const gap = staged ? 3.5 : 0;
+function restackStages(animatedPositions = null) {
   stageMeshes.forEach((group, i) => {
-    const h = ROCKETS[rocketKey].stages[i].height * 0.08;
-    if (staged && i > 0) stackY += gap;
-    group.position.y = stackY;
-    stackY += h;
+    const y = animatedPositions ? animatedPositions[i] : staged ? getStagedY(i) : getStackedY(i);
+    group.position.y = y;
+  });
+}
+
+function attachExhausts() {
+  const rocket = ROCKETS[rocketKey];
+  rocket.stages.forEach((stage, i) => {
+    if (!isEngineStage(i)) {
+      exhausts[i] = null;
+      return;
+    }
+    const scale = (stage.exhaustScale || 1) * (rocket.diameter / 3.7) * 0.35;
+    exhausts[i] = createStageExhaust(stageMeshes[i], scale);
   });
 }
 
@@ -120,16 +170,20 @@ function loadRocket(key) {
   clearRocket();
   hidePanel();
   staged = false;
+  stagingAnimating = false;
   setStageButtonLabel(false);
+  setStageButtonDisabled(false);
 
   rocketKey = key;
-  const rocket = ROCKETS[key];
-  const built = buildRocketMesh(rocket);
+  const built = buildRocketMesh(ROCKETS[key]);
   rocketRoot = built.root;
   stageMeshes = built.stageMeshes;
   scene.add(rocketRoot);
+  rocketRoot.position.y = 0;
 
+  attachExhausts();
   restackStages();
+  setAllExhaust(false);
   resetCamera(built.totalHeight);
 }
 
@@ -143,9 +197,7 @@ function resetCamera(totalHeight = 10) {
 function clearHighlight() {
   if (!selectedMesh) return;
   selectedMesh.traverse((o) => {
-    if (o.isMesh && originalMaterials.has(o)) {
-      o.material = originalMaterials.get(o);
-    }
+    if (o.isMesh && originalMaterials.has(o)) o.material = originalMaterials.get(o);
   });
   selectedMesh = null;
 }
@@ -161,11 +213,97 @@ function highlightStage(stageGroup) {
   });
 }
 
-function applyStaging() {
-  if (!rocketRoot || stageMeshes.length < 2) return;
-  staged = !staged;
-  setStageButtonLabel(staged);
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function easeOutCubic(t) {
+  return 1 - (1 - t) ** 3;
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function playStagingAnimation() {
+  const engineIndices = ROCKETS[rocketKey].stages
+    .map((_, i) => i)
+    .filter((i) => isEngineStage(i));
+  if (engineIndices.length === 0) return;
+
+  stagingAnimating = true;
+  setStageButtonDisabled(true);
+  setAllExhaust(false);
+
+  const liftMax = 2.2;
+  const baseRootY = 0;
+
+  for (let step = 0; step < engineIndices.length; step++) {
+    const activeIdx = engineIndices[step];
+    setAllExhaust(false);
+    setExhaustActive(activeIdx, true, 1.15);
+
+    const t0 = performance.now();
+    const duration = 900;
+    const startRootY = rocketRoot.position.y;
+    const targetRootY = baseRootY + liftMax * ((step + 1) / engineIndices.length);
+
+    const startYs = stageMeshes.map((g) => g.position.y);
+    const endYs = stageMeshes.map((_, i) => {
+      let y = 0;
+      const gap = 3.5;
+      for (let j = 0; j < i; j++) {
+        y += stageHeight(j);
+        if (j < activeIdx) y += gap;
+      }
+      if (i > activeIdx) y += gap * 0.6;
+      return y;
+    });
+
+    await new Promise((resolve) => {
+      function tick(now) {
+        const t = Math.min(1, (now - t0) / duration);
+        const e = easeOutCubic(t);
+        rocketRoot.position.y = lerp(startRootY, targetRootY, e);
+        stageMeshes.forEach((g, i) => {
+          g.position.y = lerp(startYs[i], endYs[i], e);
+        });
+        if (t < 1) requestAnimationFrame(tick);
+        else resolve();
+      }
+      requestAnimationFrame(tick);
+    });
+
+    if (step < engineIndices.length - 1) {
+      setExhaustActive(activeIdx, true, 0.35);
+      await wait(200);
+    }
+  }
+
+  staged = true;
+  stagingAnimating = false;
+  setStageButtonLabel(true);
+  setStageButtonDisabled(false);
   restackStages();
+
+  const lastEngine = engineIndices[engineIndices.length - 1];
+  setAllExhaust(false);
+  setExhaustActive(lastEngine, true, 0.5);
+}
+
+async function applyStaging() {
+  if (stagingAnimating || !rocketRoot || stageMeshes.length < 2) return;
+
+  if (staged) {
+    staged = false;
+    rocketRoot.position.y = 0;
+    restackStages();
+    setAllExhaust(false);
+    setStageButtonLabel(false);
+    return;
+  }
+
+  await playStagingAnimation();
 }
 
 function findStageGroup(obj) {
@@ -178,19 +316,17 @@ function findStageGroup(obj) {
 }
 
 function onPointer(event) {
+  if (stagingAnimating) return;
   const rect = canvas.getBoundingClientRect();
   pointer.set(
     ((event.clientX - rect.left) / rect.width) * 2 - 1,
     -((event.clientY - rect.top) / rect.height) * 2 + 1
   );
   raycaster.setFromCamera(pointer, camera);
-
   const hits = raycaster.intersectObjects(stageMeshes, true);
   if (!hits.length) return;
-
   const stageGroup = findStageGroup(hits[0].object);
   if (!stageGroup) return;
-
   highlightStage(stageGroup);
   showStageInfo(rocketKey, stageGroup.userData.stageIndex);
 }
@@ -205,10 +341,13 @@ initUI({
 
 loadRocket("falcon9");
 
-function animate() {
+function animate(now) {
   requestAnimationFrame(animate);
+  const dt = Math.min(0.05, (now - lastTime) / 1000);
+  lastTime = now;
   controls.update();
-  if (rocketRoot) rocketRoot.rotation.y += 0.0012;
+  exhausts.forEach((ex) => ex?.update(dt));
+  if (rocketRoot && !stagingAnimating) rocketRoot.rotation.y += 0.0012;
   renderer.render(scene, camera);
 }
-animate();
+requestAnimationFrame(animate);

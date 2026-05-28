@@ -98,6 +98,75 @@ export const ROCKETS = {
       },
     ],
   },
+
+  saturnv: {
+    id: "saturnv",
+    label: "Saturn V",
+    tinggi: 111,
+    diameter: 10.1,
+    payloadLeo: 140_000,
+    reusable: "Sekali pakai",
+    firstFlight: 1967,
+    fuel: "Kerosene / LOX + Hidrogen / LOX",
+    stages: [
+      {
+        id: "sic",
+        nama: "S-IC (5× F-1)",
+        mesin: "F-1",
+        engines: 5,
+        massaStruktur: 131_000,
+        massaBB: 2_077_000,
+        thrust: 33_850_000,
+        ispVac: 263,
+        burnTime: 168,
+        height: 46,
+        colors: { body: 0xf2f2f0, accent: 0x1a1a1a },
+        exhaustScale: 1.35,
+      },
+      {
+        id: "sii",
+        nama: "S-II (5× J-2)",
+        mesin: "J-2",
+        engines: 5,
+        massaStruktur: 40_000,
+        massaBB: 444_000,
+        thrust: 5_141_000,
+        ispVac: 421,
+        burnTime: 360,
+        height: 32,
+        colors: { body: 0xeeeee8, accent: 0x3a3a3a },
+        exhaustScale: 0.75,
+      },
+      {
+        id: "sivb",
+        nama: "S-IVB (1× J-2)",
+        mesin: "J-2",
+        engines: 1,
+        massaStruktur: 13_000,
+        massaBB: 106_000,
+        thrust: 1_033_000,
+        ispVac: 421,
+        burnTime: 500,
+        height: 22,
+        colors: { body: 0xf5f5f0, accent: 0x2a2a2a },
+        exhaustScale: 0.55,
+      },
+      {
+        id: "les",
+        nama: "Apollo (LM + CSM)",
+        mesin: "—",
+        engines: 0,
+        massaStruktur: 12_000,
+        massaBB: 0,
+        thrust: 0,
+        ispVac: 0,
+        burnTime: 0,
+        height: 11,
+        colors: { body: 0xd8d8d0, accent: 0x888888 },
+        isPayload: true,
+      },
+    ],
+  },
 };
 
 /** Massa total basah di atas stage index (termasuk stage itu + di atasnya + payload). */
@@ -105,7 +174,7 @@ export function massAbove(rocket, stageIndex, payloadKg = 0) {
   let m = payloadKg;
   for (let i = rocket.stages.length - 1; i >= stageIndex; i--) {
     const s = rocket.stages[i];
-    if (s.isFairing) {
+    if (s.isFairing || s.isPayload) {
       m += s.massaStruktur;
     } else {
       m += s.massaStruktur + s.massaBB;
@@ -123,9 +192,9 @@ export function deltaVStage(stage, m0, mf) {
 
 export function computeStageStats(rocket, stageIndex) {
   const stage = rocket.stages[stageIndex];
-  const payload = stage.isFairing ? 0 : rocket.payloadLeo * 0.3; // perkiraan untuk demo
-  const m0 = massAbove(rocket, stageIndex, stage.isFairing ? rocket.payloadLeo : payload);
-  const mf = stage.isFairing
+  const payload = stage.isFairing || stage.isPayload ? 0 : rocket.payloadLeo * 0.3; // perkiraan untuk demo
+  const m0 = massAbove(rocket, stageIndex, stage.isFairing || stage.isPayload ? rocket.payloadLeo : payload);
+  const mf = stage.isFairing || stage.isPayload
     ? m0 - stage.massaStruktur
     : m0 - stage.massaBB;
   const dv = deltaVStage(stage, m0, mf);
@@ -137,7 +206,7 @@ export function computeStageStats(rocket, stageIndex) {
     mf,
     dv,
     twr,
-    payloadUsed: stage.isFairing ? rocket.payloadLeo : payload,
+    payloadUsed: stage.isFairing || stage.isPayload ? rocket.payloadLeo : payload,
   };
 }
 

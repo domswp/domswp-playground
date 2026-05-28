@@ -51,7 +51,7 @@ export function showStageInfo(rocketKey, stageIndex) {
     ["Burn time", stage.burnTime ? `${stage.burnTime} s` : "—"],
   ];
 
-  if (stage.isFairing) {
+  if (stage.isFairing || stage.isPayload) {
     rows.push(["Payload LEO (ref.)", formatMass(rocket.payloadLeo)]);
   }
 
@@ -70,5 +70,11 @@ export function showStageInfo(rocketKey, stageIndex) {
 
 export function setStageButtonLabel(staged) {
   const btn = document.getElementById("btn-stage");
-  btn.textContent = staged ? "Gabungkan stage" : "Simulasi staging";
+  btn.textContent = staged ? "Gabungkan stage" : "Peluncuran & staging";
+}
+
+
+export function setStageButtonDisabled(disabled) {
+  const btn = document.getElementById("btn-stage");
+  btn.disabled = disabled;
 }

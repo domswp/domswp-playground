@@ -96,6 +96,11 @@ body,
   background: transparent;
 }
 
+.hud.controls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .hud.controls button:active,
 .hud.controls select:focus {
   outline: 2px solid var(--accent);
