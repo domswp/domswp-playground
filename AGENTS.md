@@ -13,6 +13,7 @@ Playground (`domswp-playground`) — satu folder per eksperimen.
 | `threejs-orbit/` | Vite, Three.js | Orbit Viewer + simulasi misi |
 | `iss-tracker/` | Vite, Three.js, satellite.js | ISS live 3D (TLE + wheretheiss.at) |
 | `snake-rust/` | Rust → WASM (cdylib), JS+canvas | Game Snake, engine Rust, demo Pages |
+| `meta-ads-planner/` | HTML/JS statis | Estimasi leads Meta Ads + targeting properti (rule-based) |
 
 ### GitHub Pages (repo public)
 
@@ -20,6 +21,7 @@ Playground (`domswp-playground`) — satu folder per eksperimen.
 - Orbit Viewer: https://domswp.github.io/domswp-playground/threejs-orbit/
 - ISS Tracker: https://domswp.github.io/domswp-playground/iss-tracker/
 - Snake (Rust/WASM): https://domswp.github.io/domswp-playground/snake-rust/
+- Meta Ads Planner: https://domswp.github.io/domswp-playground/meta-ads-planner/
 - Portfolio user (repo lain): https://domswp.github.io/profile-domswp/
 - Deploy: branch `main`, folder `/docs` + workflow `github-pages.yml`
 
@@ -56,6 +58,16 @@ python3 -m http.server -d dist 8000        # tes lokal
 - Engine game **murni Rust** (`src/lib.rs`, cdylib, **tanpa wasm-bindgen**) — C-ABI exports
 - `main.js` baca grid dari memori WASM → gambar ke canvas; skor terbaik di `localStorage`
 - Workflow Pages build ulang otomatis (rustup target wasm32)
+
+### meta-ads-planner
+
+```bash
+cd meta-ads-planner && python3 -m http.server 8000   # statis, tanpa build
+```
+
+- Internal PP Properti. **Funnel mode** (CPM+CTR+CPL → CVR diturunkan), funnel hilir **wajib diisi**
+- Targeting **rule-based** (`js/segments.js`, produk×segmen) — **tanpa AI** (AI = v2)
+- Estimasi perencanaan, bukan garansi; interest = saran, validasi di Ads Manager
 
 ### daily-news
 

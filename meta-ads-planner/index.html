@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meta Ads Planner Properti — Lab Domas</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <a class="back" href="../">← Lab Domas</a>
+        <h1>Meta Ads Planner <span>· Properti</span></h1>
+        <p class="sub">
+          Estimasi leads & biaya + rekomendasi targeting. Dikalibrasi dari data kampanyemu sendiri.
+          <strong>Perencanaan, bukan garansi.</strong>
+        </p>
+      </header>
+
+      <!-- 1. KALIBRASI -->
+      <section class="panel">
+        <h2>1 · Kalibrasi <small>data kampanye lama</small></h2>
+        <p class="hint">
+          Masukkan angka dari kampanye Meta sebelumnya. Tiga angka ini cukup untuk merekonstruksi
+          funnel (CVR diturunkan otomatis).
+        </p>
+        <div class="grid-3">
+          <label>CPM (Rp / 1000 tayang)<input type="number" id="cpm" placeholder="35000" /></label>
+          <label>CTR (%)<input type="number" id="ctr" step="0.01" placeholder="1.2" /></label>
+          <label>CPL (Rp / lead)<input type="number" id="cpl" placeholder="50000" /></label>
+        </div>
+        <div class="baseline-bar">
+          <input type="text" id="baseline-name" placeholder="Nama baseline (mis. Apartemen Bekasi)" />
+          <button id="save-baseline" class="btn ghost">Simpan baseline</button>
+          <select id="baseline-list" aria-label="Pilih baseline tersimpan">
+            <option value="">— baseline tersimpan —</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- 2. SIMULASI -->
+      <section class="panel">
+        <h2>2 · Simulasi kampanye</h2>
+        <div class="grid-3">
+          <label>Budget total (Rp)<input type="number" id="budget" placeholder="10000000" /></label>
+          <label>Durasi (hari)<input type="number" id="durasi" placeholder="30" /></label>
+          <label
+            >Objektif
+            <select id="objektif">
+              <option value="leadform">Leads (Instant Form)</option>
+              <option value="wa">Pesan WhatsApp</option>
+              <option value="traffic">Traffic ke landing</option>
+            </select>
+          </label>
+          <label
+            >Produk
+            <select id="produk">
+              <option value="rumah">Rumah tapak</option>
+              <option value="apartemen">Apartemen</option>
+              <option value="ruko">Ruko / komersial</option>
+            </select>
+          </label>
+          <label
+            >Segmen harga
+            <select id="segmen">
+              <option value="subsidi">Subsidi / entry</option>
+              <option value="menengah" selected>Menengah</option>
+              <option value="premium">Premium</option>
+            </select>
+          </label>
+          <label>Lokasi / wilayah<input type="text" id="lokasi" placeholder="mis. Bekasi" /></label>
+        </div>
+
+        <h3>Funnel hilir <small>wajib diisi — % lolos tiap tahap</small></h3>
+        <p class="hint">Properti itu siklus panjang. Isi konversi tiap tahap agar muncul biaya per booking.</p>
+        <div class="grid-3" id="hilir-inputs">
+          <label>Lead → Janji temu (%)<input type="number" id="r-janji" step="1" placeholder="40" /></label>
+          <label>Janji temu → Site visit (%)<input type="number" id="r-visit" step="1" placeholder="50" /></label>
+          <label>Site visit → Booking (%)<input type="number" id="r-booking" step="1" placeholder="20" /></label>
+        </div>
+
+        <button id="hitung" class="btn primary">Hitung estimasi</button>
+      </section>
+
+      <!-- 3. HASIL -->
+      <section class="panel result hidden" id="result">
+        <h2>3 · Hasil</h2>
+        <div id="alerts"></div>
+
+        <div class="summary" id="summary"></div>
+
+        <h3>Funnel media</h3>
+        <div class="funnel" id="funnel"></div>
+
+        <h3>Funnel hilir → booking</h3>
+        <div class="funnel hilir" id="funnel-hilir"></div>
+
+        <h3>Skenario budget</h3>
+        <div class="table-wrap"><table id="scenario"></table></div>
+      </section>
+
+      <!-- 4. TARGETING -->
+      <section class="panel hidden" id="targeting">
+        <h2>4 · Rekomendasi targeting <small>rule-based — sesuaikan di Ads Manager</small></h2>
+        <div id="targeting-body"></div>
+      </section>
+
+      <footer class="bottom">
+        Estimasi berbasis benchmark + kalibrasi datamu. Interest adalah saran — validasi ketersediaannya
+        di Meta Ads Manager. Internal PP Properti.
+      </footer>
+    </div>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
