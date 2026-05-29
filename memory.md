@@ -58,6 +58,14 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **Fitur:** skor + skor terbaik, panah/WASD/swipe/tombol d-pad, restart, game over overlay
 - **Build:** `snake-rust/build.sh [out]` → butuh `rustup target add wasm32-unknown-unknown`; workflow Pages build ulang otomatis
 - **Catatan:** WASM ~20 KB; pola ini bisa dipakai ulang untuk demo Rust/Go (WASM) lain di Lab Domas
+- **Pengembangan ke depan (ide):**
+  - Level kesulitan / kecepatan naik seiring skor (tick makin cepat)
+  - Pilihan ukuran grid + mode "wrap" (tembus dinding) vs "wall"
+  - Obstacle/rintangan, power-up, atau multi-food
+  - High-score persisten + (opsional) leaderboard
+  - Suara/efek, animasi makan, tema warna
+  - Touch/swipe diperhalus untuk mobile; mungkin haptic
+  - Eksperimen lanjut: porting logic ke wasm-bindgen kalau toolchain sudah mendukung, atau coba render via Rust+WebGL
 
 ### meta-ads-planner (tool internal PP Properti)
 
@@ -69,7 +77,16 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **Targeting rule-based:** `js/segments.js` (produk×segmen harga = 9 preset CONTOH, user sesuaikan). Persona, interest, umur/radius, copy template (slot {lokasi}{harga}{dp}{promo}), ide konten
 - **Warning:** konsistensi CVR (>100% error), learning phase (<50 leads/mgg), diagnostik CTR/CVR vs benchmark
 - **Stack:** HTML/JS statis murni (no build, no key) — pola Lab Domas
-- **Roadmap:** v2 AI (persona/copy dinamis, butuh backend untuk key), v3 export PDF + Meta Marketing API (reach resmi)
+- **Sudah jadi (v1, 2026-05-29):** kalibrasi CPM/CTR/CPL + baseline localStorage; estimasi leads (rentang) + CPL; funnel media; funnel hilir → biaya per booking; skenario budget (0,5×/1×/2×); peringatan konsistensi/learning phase/diagnostik; targeting rule-based 9 preset; copy klik-untuk-salin. PR #21.
+- **Pengembangan ke depan (roadmap):**
+  - **v2 — AI (nilai tambah):** persona/copy/ide konten dinamis dari deskripsi produk (LLM). Perlu backend kecil (Go/Python) atau lokal untuk simpan API key — JANGAN taруh key di front-end
+  - **Kalibrasi lebih pintar:** banyak baseline + pembobotan recency; rata-rata per produk/area; import CSV data kampanye
+  - **Akurasi model:** kurva diminishing returns (audiens kecil + budget besar → CPM naik); rentang berbasis variasi historis, bukan multiplier tetap
+  - **Output:** export PDF/laporan untuk meeting; bandingkan beberapa skenario berdampingan; grafik
+  - **Targeting:** preset disesuaikan ke proyek PP Properti asli (nama, harga, interest spesifik); editor preset via UI (bukan edit file)
+  - **v3 — Meta Marketing API:** ambil reach/audience size & estimasi hasil RESMI (butuh business verification + app review + access tier); validasi interest id via Targeting Search
+  - **Lain:** multi-channel (Google/TikTok) jika dibutuhkan; mode lead-quality (lead→SQL) lebih detail
+- **Catatan penting:** Interest = SARAN, validasi di Ads Manager (taksonomi Meta sering berubah). Semua angka = estimasi perencanaan, bukan garansi.
 
 ## Keputusan
 
