@@ -7,6 +7,7 @@ on:
       - "threejs-orbit/**"
       - "iss-tracker/**"
       - "snake-rust/**"
+      - "meta-ads-planner/**"
       - "docs/index.html"
       - ".github/workflows/github-pages.yml"
   workflow_dispatch:
@@ -66,16 +67,20 @@ jobs:
           rm -rf docs/iss-tracker/*
           mkdir -p docs/iss-tracker
           cp -r iss-tracker/dist/* docs/iss-tracker/
+          rm -rf docs/meta-ads-planner/*
+          mkdir -p docs/meta-ads-planner/js
+          cp meta-ads-planner/index.html meta-ads-planner/style.css docs/meta-ads-planner/
+          cp meta-ads-planner/js/*.js docs/meta-ads-planner/js/
           touch docs/.nojekyll
 
       - name: Commit docs if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/threejs-orbit docs/iss-tracker docs/snake-rust docs/.nojekyll
+          git add docs/threejs-orbit docs/iss-tracker docs/snake-rust docs/meta-ads-planner docs/.nojekyll
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "chore(pages): refresh docs builds (orbit + iss-tracker + snake)"
+            git commit -m "chore(pages): refresh docs builds (orbit + iss-tracker + snake + planner)"
             git push
           fi

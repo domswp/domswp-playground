@@ -27,6 +27,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | `threejs-orbit/` | Orbit Viewer 3D + simulasi misi | Aktif — lihat bawah |
 | `iss-tracker/` | ISS live 3D (TLE + satellite.js + API) | Aktif — lihat bawah |
 | `snake-rust/` | Game Snake — engine Rust → WASM | Aktif — demo Pages, lihat bawah |
+| `meta-ads-planner/` | Estimasi Meta Ads + targeting properti | Aktif — internal PP, lihat bawah |
 
 ### threejs-orbit (build terbaru)
 
@@ -58,6 +59,18 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **Build:** `snake-rust/build.sh [out]` → butuh `rustup target add wasm32-unknown-unknown`; workflow Pages build ulang otomatis
 - **Catatan:** WASM ~20 KB; pola ini bisa dipakai ulang untuk demo Rust/Go (WASM) lain di Lab Domas
 
+### meta-ads-planner (tool internal PP Properti)
+
+- **Live:** https://domswp.github.io/domswp-playground/meta-ads-planner/
+- **Tujuan:** Estimasi leads & CPL kampanye Meta Ads + rekomendasi targeting/copy/konten untuk produk properti
+- **Untuk:** Internal PP Properti (Domas: Corporate Performance). Cakupan **Meta saja**.
+- **Keputusan desain user:** (1) **Funnel mode** (CPM+CTR+CPL, CVR diturunkan), (2) **funnel hilir wajib diisi** (lead→janji temu→site visit→booking), (3) **tanpa AI dulu** — AI = nilai tambah v2
+- **Kalibrasi:** user input CPM/CTR/CPL data lama → baseline `localStorage`; estimasi keluar rentang pesimis/ekspektasi/optimis
+- **Targeting rule-based:** `js/segments.js` (produk×segmen harga = 9 preset CONTOH, user sesuaikan). Persona, interest, umur/radius, copy template (slot {lokasi}{harga}{dp}{promo}), ide konten
+- **Warning:** konsistensi CVR (>100% error), learning phase (<50 leads/mgg), diagnostik CTR/CVR vs benchmark
+- **Stack:** HTML/JS statis murni (no build, no key) — pola Lab Domas
+- **Roadmap:** v2 AI (persona/copy dinamis, butuh backend untuk key), v3 export PDF + Meta Marketing API (reach resmi)
+
 ## Keputusan
 
 | Tanggal | Keputusan |
@@ -75,6 +88,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | 2026-05-28 | Fix mobile: hapus bug `resizeObserver` (PR #17); TLE cadangan + timeout fetch |
 | 2026-05-28 | Hub rebrand: **Lab Domas** — Ruang eksperimen dan belajar; hanya demo Pages; campur ID/EN OK |
 | 2026-05-29 | `snake-rust/` — demo live Rust→WASM (Snake + skor); cara Rust/Go tampil di Pages |
+| 2026-05-29 | `meta-ads-planner/` — tool internal PP: estimasi leads Meta + targeting properti, funnel + hilir wajib, tanpa AI (v1) |
 
 ## Catatan Penting
 
