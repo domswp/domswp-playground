@@ -6,6 +6,7 @@ on:
     paths:
       - "threejs-orbit/**"
       - "iss-tracker/**"
+      - "snake-rust/**"
       - "docs/index.html"
       - ".github/workflows/github-pages.yml"
   workflow_dispatch:
@@ -47,6 +48,16 @@ jobs:
           npm ci
           npm run build
 
+      - name: Setup Rust (wasm)
+        run: |
+          rustup target add wasm32-unknown-unknown
+
+      - name: Build Snake (Rust → WASM) for Pages
+        working-directory: snake-rust
+        run: |
+          chmod +x build.sh
+          ./build.sh ../docs/snake-rust
+
       - name: Copy into docs/
         run: |
           rm -rf docs/threejs-orbit/*
@@ -61,10 +72,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/threejs-orbit docs/iss-tracker docs/.nojekyll
+          git add docs/threejs-orbit docs/iss-tracker docs/snake-rust docs/.nojekyll
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "chore(pages): refresh docs builds (orbit + iss-tracker)"
+            git commit -m "chore(pages): refresh docs builds (orbit + iss-tracker + snake)"
             git push
           fi

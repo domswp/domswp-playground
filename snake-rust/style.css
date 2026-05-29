@@ -1,0 +1,212 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #050810;
+  --panel: #0c1220;
+  --text: #e8eefc;
+  --muted: #8b9bb8;
+  --accent: #5eb3ff;
+  --food: #ffb347;
+  --border: rgba(120, 160, 255, 0.22);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(94, 179, 255, 0.12), transparent),
+    var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.top {
+  text-align: center;
+}
+
+.top h1 {
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.top .sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.top .sub strong {
+  color: var(--accent);
+}
+
+.scoreboard {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.score-box {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-box .label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.score-box .value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.board-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+#board {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #0c1424;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  image-rendering: pixelated;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(5, 8, 16, 0.78);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  padding: 16px;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+#overlay-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+#overlay-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+#btn-restart {
+  background: rgba(30, 45, 80, 0.6);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+#btn-restart:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hint {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.dpad-mid {
+  display: flex;
+  gap: 6px;
+}
+
+.dir {
+  width: 56px;
+  height: 48px;
+  font-size: 1.1rem;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.dir:active {
+  background: rgba(94, 179, 255, 0.25);
+  border-color: var(--accent);
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.bottom a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* D-pad utamanya untuk mobile; di desktop keyboard cukup. */
+@media (min-width: 760px) and (pointer: fine) {
+  .dpad {
+    opacity: 0.55;
+  }
+}

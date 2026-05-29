@@ -12,12 +12,14 @@ Playground (`domswp-playground`) — satu folder per eksperimen.
 | `daily-news/` | Python, feedparser | `python3 run_daily.py` → `reports/` |
 | `threejs-orbit/` | Vite, Three.js | Orbit Viewer + simulasi misi |
 | `iss-tracker/` | Vite, Three.js, satellite.js | ISS live 3D (TLE + wheretheiss.at) |
+| `snake-rust/` | Rust → WASM (cdylib), JS+canvas | Game Snake, engine Rust, demo Pages |
 
 ### GitHub Pages (repo public)
 
 - Hub (**Lab Domas**): https://domswp.github.io/domswp-playground/ — hanya demo Pages di `docs/index.html`
 - Orbit Viewer: https://domswp.github.io/domswp-playground/threejs-orbit/
 - ISS Tracker: https://domswp.github.io/domswp-playground/iss-tracker/
+- Snake (Rust/WASM): https://domswp.github.io/domswp-playground/snake-rust/
 - Portfolio user (repo lain): https://domswp.github.io/profile-domswp/
 - Deploy: branch `main`, folder `/docs` + workflow `github-pages.yml`
 
@@ -42,6 +44,18 @@ npm run build:pages
 
 - TLE + `satellite.js` (SGP4), sinkron API ~45 dtk
 - Panel telemetri **default collapsed**
+
+### snake-rust
+
+```bash
+cd snake-rust && ./build.sh dist           # build lokal
+./build.sh ../docs/snake-rust              # build untuk Pages
+python3 -m http.server -d dist 8000        # tes lokal
+```
+
+- Engine game **murni Rust** (`src/lib.rs`, cdylib, **tanpa wasm-bindgen**) — C-ABI exports
+- `main.js` baca grid dari memori WASM → gambar ke canvas; skor terbaik di `localStorage`
+- Workflow Pages build ulang otomatis (rustup target wasm32)
 
 ### daily-news
 

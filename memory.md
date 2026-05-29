@@ -26,6 +26,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | `daily-news/` | Digest berita RSS + analisis/kontradiksi | Aktif — GH Actions 07:00 WIB |
 | `threejs-orbit/` | Orbit Viewer 3D + simulasi misi | Aktif — lihat bawah |
 | `iss-tracker/` | ISS live 3D (TLE + satellite.js + API) | Aktif — lihat bawah |
+| `snake-rust/` | Game Snake — engine Rust → WASM | Aktif — demo Pages, lihat bawah |
 
 ### threejs-orbit (build terbaru)
 
@@ -48,6 +49,15 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **Bug pernah:** `resizeObserver` typo → layar hitam + chip “Memuat…” stuck — diperbaiki PR #17
 - **Kode utama:** `iss-tracker/src/main.js`, `issPropagation.js`, `api.js`, `earth.js`
 
+### snake-rust (demo live Rust pertama)
+
+- **Live:** https://domswp.github.io/domswp-playground/snake-rust/
+- **Konsep:** Bukti bahwa **Rust bisa demo live di GitHub Pages** lewat **WebAssembly**
+- **Arsitektur:** Engine game **murni Rust** (`src/lib.rs`, `cdylib`, **tanpa wasm-bindgen** karena Cargo 1.83 belum dukung edition2024 untuk wasm-bindgen-cli baru) → C-ABI exports; `main.js` baca grid dari memori linear WASM, gambar ke canvas, simpan rekor di `localStorage`
+- **Fitur:** skor + skor terbaik, panah/WASD/swipe/tombol d-pad, restart, game over overlay
+- **Build:** `snake-rust/build.sh [out]` → butuh `rustup target add wasm32-unknown-unknown`; workflow Pages build ulang otomatis
+- **Catatan:** WASM ~20 KB; pola ini bisa dipakai ulang untuk demo Rust/Go (WASM) lain di Lab Domas
+
 ## Keputusan
 
 | Tanggal | Keputusan |
@@ -64,6 +74,7 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 | 2026-05-28 | ISS Tracker: deploy Pages OK; user konfirmasi live & akurat untuk visual |
 | 2026-05-28 | Fix mobile: hapus bug `resizeObserver` (PR #17); TLE cadangan + timeout fetch |
 | 2026-05-28 | Hub rebrand: **Lab Domas** — Ruang eksperimen dan belajar; hanya demo Pages; campur ID/EN OK |
+| 2026-05-29 | `snake-rust/` — demo live Rust→WASM (Snake + skor); cara Rust/Go tampil di Pages |
 
 ## Catatan Penting
 
