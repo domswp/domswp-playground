@@ -49,6 +49,8 @@ Catatan dan konteks untuk agent agar tetap ingat antar session.
 - **Data:** Bukan telemetri resmi NASA — TLE + API publik, delay beberapa detik; cukup untuk edukasi / visual “ISS di mana sekarang”
 - **Bug pernah:** `resizeObserver` typo → layar hitam + chip “Memuat…” stuck — diperbaiki PR #17
 - **Kode utama:** `iss-tracker/src/main.js`, `issPropagation.js`, `api.js`, `earth.js`
+- **Verifikasi akurasi (2026-05-30):** Posisi propagasi = API persis (0 km, wheretheiss.at pakai SGP4 dari TLE sama). Alignment tekstur benar (London→UK, Jakarta→Jawa, marker live di atas geografi yang tepat). Inklinasi 51,6° benar. Catatan: Bumi tidak berputar terhadap waktu, tapi karena Bumi & ISS pakai frame lon/lat yang sama (ECEF), marker selalu di lokasi geografis yang benar; garis "orbit" tampak spiral terbuka (wajar di frame Earth-fixed), bukan bug.
+- **Bug diperbaiki (2026-05-30):** Kecepatan salah satuan → tampil 99 km/jam. `formatSpeed` dulu ×3.6 (asumsi m/s) padahal API kirim km/h & propagasi km/s. Distandarkan ke **km/jam**: API langsung, propagasi ×3600. Sekarang ~27.500 km/jam benar. Branch `cursor/iss-fix-velocity-4e69`.
 
 ### snake-rust (demo live Rust pertama)
 
