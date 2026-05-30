@@ -1,0 +1,5 @@
+# Cache data mentah & time-series hasil olahan (tidak perlu masuk git).
+# Output dashboard TIDAK di sini — dia ditulis ke ../docs/space-weather/index.html
+data/
+__pycache__/
+*.pyc
