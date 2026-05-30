@@ -111,15 +111,19 @@ def build(df: pd.DataFrame, method: str, out_path=None) -> str:
             range=[0, 9],  # Kp index skala 0–9
         ),
         legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="left",
-            x=0,
-            bgcolor="rgba(0,0,0,0)",
+            # Legenda diletakkan DI DALAM pojok kanan-atas chart supaya tidak
+            # bertabrakan dengan subtitle judul di atas area plot.
+            yanchor="top",
+            y=0.98,
+            xanchor="right",
+            x=0.99,
+            bgcolor="rgba(12,18,32,0.72)",
+            bordercolor="rgba(120,160,255,0.22)",
+            borderwidth=1,
+            font=dict(size=11),
         ),
         hovermode="x unified",
-        margin=dict(l=60, r=60, t=110, b=60),
+        margin=dict(l=60, r=60, t=96, b=70),
     )
 
     # Footer info sebagai anotasi di bawah grafik.
