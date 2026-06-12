@@ -25,7 +25,7 @@ function renderStats(data) {
   const rows = [
     ["Posisi", formatCoord(data.latRad, data.lonRad)],
     ["Ketinggian", formatAlt(data.altKm)],
-    ["Kecepatan", formatSpeed(data.velocityKmS)],
+    ["Kecepatan", formatSpeed(data.velocityKmh)],
     ["Visibilitas", data.visibility || "—"],
     ["Sinkron API", data.apiSyncLabel || "—"],
     ["TLE diperbarui", data.tleLabel || "—"],
@@ -64,13 +64,13 @@ export function updateTelemetry({
   latRad,
   lonRad,
   altKm,
-  velocityKmS,
+  velocityKmh,
   visibility,
   apiSyncLabel,
   tleLabel,
   note,
 }) {
-  lastTelemetry = { latRad, lonRad, altKm, velocityKmS, visibility, apiSyncLabel, tleLabel };
+  lastTelemetry = { latRad, lonRad, altKm, velocityKmh, visibility, apiSyncLabel, tleLabel };
   summary.textContent = `${formatCoord(latRad, lonRad)} · ${formatAlt(altKm)}`;
   renderStats(lastTelemetry);
   if (note) noteEl.textContent = note;
@@ -90,7 +90,7 @@ export function updateTelemetryFromApi(api, propagated) {
     latRad,
     lonRad,
     altKm: api.altitude,
-    velocityKmS: api.velocity / 1000,
+    velocityKmh: api.velocity,
     visibility: visibilityLabel(api.visibility),
     apiSyncLabel: formatUnix(api.timestamp),
     tleLabel: propagated?.tleLabel ?? "—",
