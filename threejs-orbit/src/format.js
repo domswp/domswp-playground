@@ -1,5 +1,5 @@
 export function formatMass(kg) {
-  if (kg >= 1_000_000) return `${(kg / 1_000_000).toFixed(2)} t`;
+  // 1 t = 1.000 kg, juga untuk massa di atas 1.000 t.
   if (kg >= 1_000) return `${(kg / 1_000).toFixed(1)} t`;
   return `${kg.toFixed(0)} kg`;
 }
