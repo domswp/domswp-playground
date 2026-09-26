@@ -25,6 +25,7 @@ untuk membawa bahan bakar itu. 🤯
 """
 
 import math
+from pathlib import Path
 
 # ============================================================
 # KONSTANTA
@@ -197,7 +198,9 @@ def buat_grafik():
     ax.set_ylim(0, 50)
 
     plt.tight_layout()
-    plt.savefig('rocket-sim/01_tsiolkovsky.png', dpi=150)
+    output = Path(__file__).with_suffix('.png')
+    plt.savefig(output, dpi=150)
+    plt.close(fig)
     print(f"\n  📈 Grafik disimpan: rocket-sim/01_tsiolkovsky.png")
 
 

@@ -50,6 +50,10 @@ python3 04_falcon9_vs_starship.py
 ```
 
 Setiap script menghasilkan output di terminal + grafik visualisasi (disimpan sebagai file PNG).
+File PNG disimpan di folder `rocket-sim/`, terlepas dari direktori tempat perintah dijalankan.
+Grafik peluncuran menggambarkan gerak vertikal 1D, bukan manuver masuk orbit.
+`02_launch_sim.py` berhenti pada apogee; reentry dan pendaratan belum dimodelkan.
+Versi ini belum membuat animasi bergerak.
 
 ## Referensi Belajar
 

@@ -21,6 +21,7 @@ Saturn V:
 """
 
 import math
+from pathlib import Path
 
 # ============================================================
 # KONSTANTA
@@ -241,7 +242,9 @@ def simulasi_peluncuran(nama, data, dt=0.5):
 
     log = {"waktu": [], "ketinggian": [], "kecepatan": []}
 
-    while waktu < 600 and current_stage < len(stages):
+    # Setiap roket punya total waktu pembakaran berbeda; hentikan setelah
+    # stage terakhir habis, bukan pada batas 600 detik yang memotong Saturn V.
+    while current_stage < len(stages):
         g = gravitasi(ketinggian)
         rho = kepadatan_udara(ketinggian)
         gaya_drag = 0.5 * rho * kecepatan ** 2 * cd * area
@@ -453,11 +456,6 @@ def buat_grafik():
     # --- 1. Bar chart: Spesifikasi ---
     ax1 = axes[0][0]
     names_short = ["Falcon 9", "Starship", "Saturn V"]
-    massa = [ROCKETS[n]["stages"][0]["thrust"] / 1e6 +
-             sum(s["thrust"] for s in ROCKETS[n]["stages"][1:]) / 1e6
-             if n != "Starship + Super Heavy" else 74.0
-             for n in ROCKETS.keys()]
-
     thrust_vals = []
     for nama, data in ROCKETS.items():
         thrust_vals.append(data["stages"][0]["thrust"] / 1e6)
@@ -511,15 +509,16 @@ def buat_grafik():
         ax4.plot(log["waktu"], [v/1000 for v in log["kecepatan"]],
                 label=label, color=colors[nama], linewidth=2)
 
-    ax4.axhline(y=7.8, color='gray', linestyle='--', alpha=0.5, label='Orbital velocity')
     ax4.set_xlabel('Waktu (s)')
-    ax4.set_ylabel('Kecepatan (km/s)')
-    ax4.set_title('Simulasi Peluncuran: Kecepatan')
+    ax4.set_ylabel('Kecepatan vertikal (km/s)')
+    ax4.set_title('Simulasi 1D: Kecepatan Vertikal')
     ax4.legend(fontsize=9)
     ax4.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig('rocket-sim/04_falcon9_vs_starship.png', dpi=150)
+    output = Path(__file__).with_suffix('.png')
+    plt.savefig(output, dpi=150)
+    plt.close(fig)
     print(f"\n  📈 Grafik disimpan: rocket-sim/04_falcon9_vs_starship.png")
 
 

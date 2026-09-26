@@ -23,6 +23,7 @@ Dimana ρ (rho) = kepadatan udara (berkurang seiring ketinggian)
 """
 
 import math
+from pathlib import Path
 
 # ============================================================
 # KONSTANTA
@@ -135,9 +136,10 @@ def simulasi_peluncuran(dt: float = 0.1):
         gaya_drag = drag(abs(kecepatan), ketinggian, r["Cd"], area)
 
         if mesin_menyala and massa_bb > 0:
-            gaya_thrust = r["thrust"]
-            massa_bb -= burn_rate * dt
-            massa_total -= burn_rate * dt
+            consumed = min(burn_rate * dt, massa_bb)
+            gaya_thrust = r["thrust"] * consumed / (burn_rate * dt)
+            massa_bb -= consumed
+            massa_total -= consumed
             if massa_bb <= 0:
                 massa_bb = 0
                 mesin_menyala = False
@@ -145,8 +147,8 @@ def simulasi_peluncuran(dt: float = 0.1):
             gaya_thrust = 0
 
         berat = massa_total * g
-        drag_arah = gaya_drag if kecepatan < 0 else -gaya_drag
-        gaya_net = gaya_thrust - berat + drag_arah if kecepatan >= 0 else -berat - drag_arah
+        drag_arah = -math.copysign(gaya_drag, kecepatan)
+        gaya_net = gaya_thrust - berat + drag_arah
         percepatan = gaya_net / massa_total
 
         kecepatan += percepatan * dt
@@ -180,22 +182,20 @@ def simulasi_peluncuran(dt: float = 0.1):
             event = "🔥" if mesin_menyala else "coast"
             print(f"  {waktu:>7.1f} {ketinggian/1000:>11.1f}km {kecepatan:>11.0f}m/s {percepatan/G0:>11.1f}G {massa_total:>9,.0f} {event}")
 
-        if kecepatan < 0 and ketinggian < 0:
-            ketinggian = 0
-            break
-
         if not apogee_tercapai and kecepatan < 0 and not mesin_menyala:
             apogee_tercapai = True
             print(f"  {waktu:>7.1f} {ketinggian/1000:>11.1f}km {kecepatan:>11.0f}m/s {percepatan/G0:>11.1f}G {massa_total:>9,.0f} ← APOGEE! 🏔️")
+            break
 
-        if waktu > 2000:
+        if waktu > 6000:
+            print("  Simulasi dihentikan pada batas 6000 detik sebelum apogee.")
             break
 
     print(f"\n  📊 Statistik Penerbangan:")
     print(f"     Ketinggian maksimum : {max(data['ketinggian'])/1000:,.1f} km")
     print(f"     Kecepatan maksimum  : {max_kecepatan:,.0f} m/s ({max_kecepatan*3.6:,.0f} km/h, Mach {max_kecepatan/343:.1f})")
     print(f"     Max-Q               : {max_q/1000:,.1f} kPa pada T+{max_q_waktu:.1f}s")
-    print(f"     Durasi penerbangan  : {waktu:,.0f} s ({waktu/60:.1f} menit)")
+    print(f"     Waktu hingga apogee : {waktu:,.0f} s ({waktu/60:.1f} menit)")
 
     if max(data['ketinggian']) >= 100_000:
         print(f"     🌌 Melewati Karman Line (100 km) — selamat, kamu ke luar angkasa!")
@@ -259,7 +259,9 @@ def buat_grafik(data):
     ax4.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig('rocket-sim/02_launch_sim.png', dpi=150)
+    output = Path(__file__).with_suffix('.png')
+    plt.savefig(output, dpi=150)
+    plt.close(fig)
     print(f"\n  📈 Grafik disimpan: rocket-sim/02_launch_sim.png")
 
 
@@ -286,7 +288,7 @@ if __name__ == "__main__":
   3. Drag loss — hambatan udara paling besar di atmosfer bawah
   4. Max-Q = tekanan dinamis maksimum (momen paling stress buat roket)
   5. MECO = Main Engine Cut-Off (bahan bakar habis)
-  6. Setelah MECO, roket 'coast' — naik karena momentum, lalu jatuh
+  6. Setelah MECO, roket 'coast' — simulasi berhenti pada apogee
 
   ➡️  Lanjut ke 03_staging.py untuk belajar kenapa roket punya tingkatan!
 """)
