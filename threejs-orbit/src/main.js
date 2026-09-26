@@ -80,13 +80,17 @@ const pointer = new THREE.Vector2();
 let lastTime = performance.now();
 
 function resize() {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+  const w = canvas.clientWidth || window.innerWidth;
+  const h = canvas.clientHeight || window.innerHeight;
+  if (w < 2 || h < 2) return;
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
 window.addEventListener("resize", resize);
+if (typeof ResizeObserver !== "undefined") {
+  new ResizeObserver(() => resize()).observe(canvas);
+}
 resize();
 
 function stageHeight(i) {

@@ -2,56 +2,21 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
     <title>Orbit Viewer — Simulasi roket</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <div id="app">
-      <canvas id="canvas"></canvas>
-
       <header class="hud top">
         <h1>Orbit Viewer</h1>
         <p class="sub">Drag orbit · klik stage · tombol di bawah untuk data</p>
       </header>
 
-      <div class="hud controls">
-        <label for="rocket-select">Roket</label>
-        <select id="rocket-select">
-          <option value="falcon9">Falcon 9</option>
-          <option value="starship">Starship + Super Heavy</option>
-          <option value="saturnv">Saturn V (Apollo)</option>
-          <option value="soyuz">Soyuz-2.1a</option>
-          <option value="sls">SLS Block 1 (Artemis)</option>
-        </select>
+      <canvas id="canvas"></canvas>
 
-        <label for="mission-select">Misi</label>
-        <select id="mission-select">
-          <option value="leo">LEO</option>
-          <option value="gto">GTO</option>
-          <option value="tli">TLI (Bulan)</option>
-        </select>
-
-        <label for="env-select">Kondisi</label>
-        <select id="env-select">
-          <option value="standard">Normal</option>
-          <option value="hot">Panas</option>
-          <option value="cold">Dingin</option>
-        </select>
-
-        <button type="button" id="btn-stage" class="ghost">Peluncuran & staging</button>
-        <label for="compare-select" id="compare-label" class="compare-only hidden">vs</label>
-        <select id="compare-select" class="compare-only hidden">
-          <option value="saturnv">Saturn V</option>
-          <option value="falcon9">Falcon 9</option>
-          <option value="starship">Starship</option>
-          <option value="sls">SLS</option>
-          <option value="soyuz">Soyuz</option>
-        </select>
-        <button type="button" id="btn-compare" class="ghost">Bandingkan</button>
-        <button type="button" id="btn-reset" class="ghost">Reset kamera</button>
-      </div>
-
+      <div class="dock">
+      <div class="dock-sheets">
       <aside id="mission-panel" class="hud panel mission collapsed" aria-label="Simulasi misi">
         <button type="button" id="mission-toggle" class="panel-toggle" aria-expanded="false">
           <span class="toggle-title">Simulasi misi</span>
@@ -75,10 +40,60 @@
         <dl id="panel-stats"></dl>
         <p id="panel-note" class="note"></p>
       </aside>
+      </div>
+
+      <div class="hud controls">
+        <div class="field">
+          <label for="rocket-select">Roket</label>
+          <select id="rocket-select">
+            <option value="falcon9">Falcon 9</option>
+            <option value="starship">Starship + Super Heavy</option>
+            <option value="saturnv">Saturn V (Apollo)</option>
+            <option value="soyuz">Soyuz-2.1a</option>
+            <option value="sls">SLS Block 1 (Artemis)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="mission-select">Misi</label>
+          <select id="mission-select">
+            <option value="leo">LEO</option>
+            <option value="gto">GTO</option>
+            <option value="tli">TLI (Bulan)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="env-select">Kondisi</label>
+          <select id="env-select">
+            <option value="standard">Normal</option>
+            <option value="hot">Panas</option>
+            <option value="cold">Dingin</option>
+          </select>
+        </div>
+
+        <div class="field compare-only hidden">
+          <label for="compare-select" id="compare-label">vs</label>
+          <select id="compare-select">
+            <option value="saturnv">Saturn V</option>
+            <option value="falcon9">Falcon 9</option>
+            <option value="starship">Starship</option>
+            <option value="sls">SLS</option>
+            <option value="soyuz">Soyuz</option>
+          </select>
+        </div>
+
+        <div class="control-actions">
+          <button type="button" id="btn-stage" class="ghost">Peluncuran & staging</button>
+          <button type="button" id="btn-compare" class="ghost">Bandingkan</button>
+          <button type="button" id="btn-reset" class="ghost">Reset kamera</button>
+        </div>
+      </div>
 
       <footer class="hud bottom">
         <span>Data perkiraan dari sumber referensi online (spesifikasi publik). Bukan telemetri live.</span>
       </footer>
+      </div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
