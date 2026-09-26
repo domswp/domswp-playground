@@ -23,6 +23,7 @@ Roket terkenal dan staging-nya:
 """
 
 import math
+from pathlib import Path
 
 # ============================================================
 # KONSTANTA
@@ -326,7 +327,9 @@ def buat_grafik(saturn_results, optimal_results):
                     xytext=(0, 10), ha='center', fontsize=9)
 
     plt.tight_layout()
-    plt.savefig('rocket-sim/03_staging.png', dpi=150)
+    output = Path(__file__).with_suffix('.png')
+    plt.savefig(output, dpi=150)
+    plt.close(fig)
     print(f"\n  📈 Grafik disimpan: rocket-sim/03_staging.png")
 
 
