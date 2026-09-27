@@ -13,7 +13,7 @@ export function formatAlt(km) {
 }
 
 export function formatSpeed(kmS) {
-  return `${(kmS * 3.6).toFixed(0)} km/jam`;
+  return `${(kmS * 3600).toFixed(0)} km/jam`;
 }
 
 export function formatUnix(ts) {

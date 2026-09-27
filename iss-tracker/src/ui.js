@@ -1,11 +1,4 @@
-import {
-  formatAlt,
-  formatCoord,
-  formatSpeed,
-  formatUnix,
-  visibilityLabel,
-} from "./format.js";
-import { radToDeg } from "./coords.js";
+import { formatAlt, formatCoord, formatSpeed } from "./format.js";
 
 const panel = document.getElementById("telemetry-panel");
 const toggle = document.getElementById("telemetry-toggle");
@@ -76,31 +69,3 @@ export function updateTelemetry({
   if (note) noteEl.textContent = note;
 }
 
-export function updateTelemetryFromApi(api, propagated) {
-  const latRad = (api.latitude * Math.PI) / 180;
-  const lonRad = (api.longitude * Math.PI) / 180;
-  const note =
-    propagated?.latRad != null
-      ? `Propagasi: ${formatCoord(propagated.latRad, propagated.lonRad)} · selisih ~${driftKm(
-          api,
-          propagated
-        )} km`
-      : "";
-  updateTelemetry({
-    latRad,
-    lonRad,
-    altKm: api.altitude,
-    velocityKmS: api.velocity / 1000,
-    visibility: visibilityLabel(api.visibility),
-    apiSyncLabel: formatUnix(api.timestamp),
-    tleLabel: propagated?.tleLabel ?? "—",
-    note,
-  });
-}
-
-function driftKm(api, prop) {
-  const dLat = api.latitude - radToDeg(prop.latRad);
-  const dLon = api.longitude - radToDeg(prop.lonRad);
-  const approx = Math.sqrt(dLat * dLat + dLon * dLon) * 111;
-  return approx.toFixed(0);
-}

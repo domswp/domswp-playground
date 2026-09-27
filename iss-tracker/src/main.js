@@ -1,7 +1,14 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { fetchIssNow, fetchTle } from "./api.js";
-import { API_SYNC_MS, TLE_REFRESH_MS } from "./constants.js";
+import { clockOffsetFromApi } from "./clockSync.js";
+import {
+  API_SYNC_MS,
+  ORBIT_LINE_REFRESH_MS,
+  TELEMETRY_REFRESH_MS,
+  TLE_REFRESH_MS,
+} from "./constants.js";
+import { horizontalDriftKm } from "./drift.js";
 import {
   createEarth,
   createGroundTrack,
@@ -12,7 +19,8 @@ import {
 } from "./earth.js";
 import { geodeticToThree } from "./coords.js";
 import { FALLBACK_TLE } from "./fallbackTle.js";
-import { formatUnix } from "./format.js";
+import { formatCoord, formatUnix, visibilityLabel } from "./format.js";
+import { liveTelemetry } from "./liveTelemetry.js";
 import {
   getIssState,
   hasTle,
@@ -25,7 +33,6 @@ import {
   setOrbitVisible,
   setStatus,
   updateTelemetry,
-  updateTelemetryFromApi,
 } from "./ui.js";
 
 const canvas = document.getElementById("canvas");
@@ -45,6 +52,24 @@ let showOrbit = true;
 let tleMeta = { tleTimestamp: null };
 let clockOffsetMs = 0;
 let running = false;
+let held = {
+  visibility: "—",
+  apiSyncLabel: "…",
+  note: "Menghubungi API…",
+};
+
+function publishTelemetry() {
+  const state = getIssState(simNow());
+  if (!state) return;
+  updateTelemetry(
+    liveTelemetry(state, {
+      visibility: held.visibility,
+      apiSyncLabel: held.apiSyncLabel,
+      tleLabel: formatUnix(tleMeta.tleTimestamp),
+      note: held.note,
+    })
+  );
+}
 
 function simNow() {
   return new Date(Date.now() + clockOffsetMs);
@@ -159,33 +184,33 @@ async function loadTle() {
 async function syncApi() {
   try {
     const api = await fetchIssNow();
-    const propagated = getIssState(simNow());
-    if (propagated && api.timestamp) {
-      const apiDate = new Date(api.timestamp * 1000);
-      clockOffsetMs = apiDate.getTime() - propagated.date.getTime();
+    if (Number.isFinite(Number(api.timestamp))) {
+      clockOffsetMs = clockOffsetFromApi(Number(api.timestamp), Date.now());
     }
-    updateTelemetryFromApi(api, {
-      latRad: propagated?.latitude,
-      lonRad: propagated?.longitude,
-      tleLabel: formatUnix(tleMeta.tleTimestamp),
-    });
+    const propagated = getIssState(simNow());
+    held.visibility = visibilityLabel(api.visibility);
+    held.apiSyncLabel = formatUnix(api.timestamp);
+    if (propagated) {
+      const km = horizontalDriftKm(
+        api.latitude,
+        api.longitude,
+        propagated.latitude,
+        propagated.longitude
+      );
+      const latRad = (api.latitude * Math.PI) / 180;
+      const lonRad = (api.longitude * Math.PI) / 180;
+      held.note = `Saat sinkron, API: ${formatCoord(latRad, lonRad)} · selisih ~${km.toFixed(0)} km`;
+    }
+    refreshOrbitLine();
+    publishTelemetry();
     setStatus("Live · API OK", "ok");
   } catch (err) {
     console.warn("API sync:", err);
     setStatus("Propagasi TLE (API gagal)", "warn");
-    const propagated = getIssState(simNow());
-    if (propagated) {
-      updateTelemetry({
-        latRad: propagated.latitude,
-        lonRad: propagated.longitude,
-        altKm: propagated.height,
-        velocityKmS: propagated.velocityKmS,
-        visibility: "—",
-        apiSyncLabel: "Gagal",
-        tleLabel: formatUnix(tleMeta.tleTimestamp),
-        note: "Posisi 3D dari TLE; coba refresh jika perlu data API.",
-      });
-    }
+    held.visibility = "—";
+    held.apiSyncLabel = "Gagal";
+    held.note = "Posisi 3D dari TLE; coba refresh jika perlu data API.";
+    publishTelemetry();
   }
 }
 
@@ -221,19 +246,10 @@ async function bootstrap() {
     setStatus("TLE cadangan (offline?)", "warn");
   }
 
-  const propagated = getIssState(simNow());
-  if (propagated) {
-    updateTelemetry({
-      latRad: propagated.latitude,
-      lonRad: propagated.longitude,
-      altKm: propagated.height,
-      velocityKmS: propagated.velocityKmS,
-      visibility: "—",
-      apiSyncLabel: "…",
-      tleLabel: formatUnix(tleMeta.tleTimestamp),
-      note: "Menghubungi API…",
-    });
-  }
+  held.note = "Menghubungi API…";
+  held.apiSyncLabel = "…";
+  held.visibility = "—";
+  publishTelemetry();
 
   syncApi();
 
@@ -277,6 +293,8 @@ function start() {
     applyTle(FALLBACK_TLE.line1, FALLBACK_TLE.line2, null);
     running = true;
     animate();
+    setInterval(publishTelemetry, TELEMETRY_REFRESH_MS);
+    setInterval(refreshOrbitLine, ORBIT_LINE_REFRESH_MS);
     bootstrap();
   } catch (err) {
     console.error(err);
