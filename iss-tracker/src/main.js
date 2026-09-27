@@ -199,7 +199,7 @@ async function syncApi() {
       );
       const latRad = (api.latitude * Math.PI) / 180;
       const lonRad = (api.longitude * Math.PI) / 180;
-      held.note = `API: ${formatCoord(latRad, lonRad)} · selisih ~${km.toFixed(0)} km`;
+      held.note = `Saat sinkron, API: ${formatCoord(latRad, lonRad)} · selisih ~${km.toFixed(0)} km`;
     }
     refreshOrbitLine();
     publishTelemetry();
