@@ -33,10 +33,16 @@ export function getIssState(date = new Date()) {
   };
 }
 
+/** Satu putaran dalam menit, dari mean motion SGP4 (rad/menit). */
+export function orbitPeriodMin() {
+  if (!satrec?.no) return ISS_ORBIT_PERIOD_MIN;
+  return (2 * Math.PI) / satrec.no;
+}
+
 /** Titik satu putaran orbit untuk garis 3D. */
 export function sampleOrbitGeodetic(pointCount = 128, startDate = new Date()) {
   if (!satrec) return [];
-  const periodMs = ISS_ORBIT_PERIOD_MIN * 60 * 1000;
+  const periodMs = orbitPeriodMin() * 60 * 1000;
   const step = periodMs / pointCount;
   const points = [];
   for (let i = 0; i <= pointCount; i++) {

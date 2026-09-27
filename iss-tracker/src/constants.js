@@ -12,6 +12,8 @@ export const ISS_ORBIT_PERIOD_MIN = 92.68;
 
 export const TLE_REFRESH_MS = 6 * 60 * 60 * 1000;
 export const API_SYNC_MS = 45 * 1000;
+export const TELEMETRY_REFRESH_MS = 1000;
+export const ORBIT_LINE_REFRESH_MS = 60 * 1000;
 
 export const EARTH_TEXTURE_URL =
   "https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-blue-marble.jpg";
