@@ -12,8 +12,9 @@ export function formatAlt(km) {
   return `${km.toFixed(1)} km`;
 }
 
-export function formatSpeed(kmS) {
-  return `${(kmS * 3.6).toFixed(0)} km/jam`;
+export function formatSpeed(kmh) {
+  if (!isFinite(kmh)) return "—";
+  return `${Math.round(kmh).toLocaleString("id-ID")} km/jam`;
 }
 
 export function formatUnix(ts) {

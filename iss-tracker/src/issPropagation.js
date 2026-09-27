@@ -28,7 +28,7 @@ export function getIssState(date = new Date()) {
     latitude: gd.latitude,
     longitude: gd.longitude,
     height: gd.height,
-    velocityKmS: speedKmS,
+    velocityKmh: speedKmS * 3600,
     date,
   };
 }
